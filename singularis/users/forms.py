@@ -1,5 +1,6 @@
 
 from django import forms
+from django.contrib.auth.models import User
 
 
 class RegisterForm(forms.Form):
@@ -14,7 +15,18 @@ class RegisterForm(forms.Form):
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': "*Повторите пароль..", "class": "password"}))
 
+    # reCAPTHA token
+    token = forms.CharField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2',)
+
 
 class Authorization(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(min_length=8, widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('email', 'password', )

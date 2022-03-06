@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect, HttpResponse
 import logging
 from users.forms import RegisterForm, Authorization
 from django.contrib.auth.models import User
+from singularis.mixins import (
+    reCAPTCHAValidation,
+)
 
 logger = logging.getLogger(__name__)
 
