@@ -1,0 +1,17 @@
+.full {
+    background-color: rgba(192, 174, 236, 0.7);
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.singularis {
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+}
+
+.navbar {
+    background: linear-gradient(rgba(178, 162, 217, 0.7), rgba(72, 70, 70, 0.7)), url("https://shwanoff.ru/wp-content/uploads/2018/05/programming-1280x720.jpg");
+    background-size: cover;
+}

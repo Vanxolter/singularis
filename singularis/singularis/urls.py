@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 
 from main.views import main
-from users.views import authorization, register, logout_view
+from users.views import authorization, logout_view, register
 
 urlpatterns = [
     path("admin/django-rq/", include("django_rq.urls")),
     path("", authorization, name="login"),  # АВТОРИЗАЦИЯ
-    path("users/", register, name="register"),  # РЕГИСТРАЦИЯ
+    path("register/", register, name="register"),  # РЕГИСТРАЦИЯ
+    #path("register/", SignUpView.as_view(), name="register"),  # РЕГИСТРАЦИЯ через класс
     path("logouthtml/", logout_view, name="logout"),  # ВЫХОД ИЗ ПРОФИЛЯ
     path("main/", main, name="home"),  # ДОМАШНЯЯ СТРАНИЦА
 ]
