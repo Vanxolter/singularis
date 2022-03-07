@@ -16,14 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from main.views import main
+from main.views import start
 from users.views import authorization, logout_view, register
 
 urlpatterns = [
     path("admin/django-rq/", include("django_rq.urls")),
-    path("", authorization, name="login"),  # АВТОРИЗАЦИЯ
+    path("login/", authorization, name="login"),  # АВТОРИЗАЦИЯ
     path("register/", register, name="register"),  # РЕГИСТРАЦИЯ
     #path("register/", SignUpView.as_view(), name="register"),  # РЕГИСТРАЦИЯ через класс
     path("logouthtml/", logout_view, name="logout"),  # ВЫХОД ИЗ ПРОФИЛЯ
-    path("main/", main, name="home"),  # ДОМАШНЯЯ СТРАНИЦА
+    path("", start, name="home"),  # ДОМАШНЯЯ СТРАНИЦА
 ]

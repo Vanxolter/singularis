@@ -9,19 +9,16 @@
         <form method="POST" class="post-form" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="save btn btn-primary">Добавить</button>
+            <button type="submit" class="save btn btn-primary">Найти</button>
         </form>
     {% else %}
         <p>Для введения координат вам требуется авторизироваться</p>
+        <a href="{% url "login" %}" class="btn btn-primary btn-lg active" role="button" disabled>Войти</a><br>
     {% endif %}
 
     <div class="container">
-        <iframe width="1200" height="800" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox={{ coordinates.startlat }}%2C{{ coordinates.startlong }}%2C{{ coordinates.startlat }}%2C{{ coordinates.startlong }}&amp;layer=cyclosm&amp;marker={{ coordinates.startlat }}%2C{{ coordinates.startlong }}" style="border: 1px solid black"></iframe><br/>
-        <small><a href="https://www.openstreetmap.org/?mlat=53.9029&amp;mlon=27.5613#map=14/53.9028/27.5613&amp;layers=Y">Посмотреть более крупную карту</a></small>
+        <iframe width="1200" height="800" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                src="https://www.openstreetmap.org/export/embed.html?bbox={{ coordinates.startlong }}%2C{{ coordinates.startlat }}%2C{{ longkoef }}%2C{{ latkoef }}&amp;layer=cyclosm&amp;
+                marker={{ coordinates.startlat }}%2C{{ coordinates.startlong }}" style="border: 1px solid black"></iframe><br/>
     </div>
 {% endblock %}
-
-
-
-
-<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=27.51414299011231%2C53.90878771654454%2C27.567701339721683%2C53.93216539853863&amp;layer=cyclosm&amp;marker=53.92049083042179%2C27.540922164916992" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/?mlat=53.9205&amp;mlon=27.5409#map=15/53.9205/27.5409&amp;layers=Y">Посмотреть более крупную карту</a></small>
