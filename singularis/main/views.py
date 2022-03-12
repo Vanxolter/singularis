@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import folium
-
 from main import getroute
 from main.forms import LocationForm
 from main.models import StartLoc
@@ -41,7 +40,16 @@ def start(request):
 
 
 def showmap(request):
-    return render(request,'main/showmap.html')
+    if request.method == "POST":
+        form = LocationForm(request.POST, request.FILES)
+        if form.is_valid():
+            coordinates = StartLoc.objects.create(author=request.user, **form.cleaned_data)
+            logger.info(f"{request.user} added a new coordinates - {coordinates} ")
+            return redirect("showmap")
+    else:
+        form = LocationForm()
+    return render(request,'main/showmap.html', {"form": form})
+
 
 def showroute(request,lat1,long1,lat2,long2):
     figure = folium.Figure()

@@ -1,8 +1,7 @@
 
 import requests
-import json
 import polyline
-import folium
+
 
 def get_route(pickup_lon, pickup_lat, dropoff_lon, dropoff_lat):
     loc = "{},{};{},{}".format(pickup_lon, pickup_lat, dropoff_lon, dropoff_lat)
