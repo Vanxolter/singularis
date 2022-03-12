@@ -1,4 +1,6 @@
 import requests
+from humanfriendly import format_timespan
+
 from singularis import settings
 
 

@@ -1,10 +1,10 @@
 
 from django import forms
 
-from main.models import Location
+from main.models import StartLoc
 
 
 class LocationForm(forms.ModelForm):
     class Meta:
-        model = Location
+        model = StartLoc
         fields = ["startlong", "startlat"]
