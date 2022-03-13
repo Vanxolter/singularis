@@ -4,7 +4,7 @@ import polyline
 
 
 def get_route(pickup_lon, pickup_lat, dropoff_lon, dropoff_lat):
-    loc = "{},{};{},{}".format(pickup_lon, pickup_lat, dropoff_lon, dropoff_lat)
+    loc = f"{pickup_lon},{pickup_lat};{dropoff_lon},{dropoff_lat}"
     url = "http://router.project-osrm.org/route/v1/driving/"
     r = requests.get(url + loc)
     if r.status_code!= 200:

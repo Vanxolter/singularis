@@ -8,17 +8,17 @@
     <head>
         <style>
             #map {
-                position: absolute;
-                top: 300px;
-                bottom: 100px;
-                right: 300px;
-                left: 300px;
+                position: static;
+            }
+            .map {
+                background: chartreuse;
+                min-height: 650px;
             }
         </style>
     </head>
 
     <body>
-        {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated %}
         <form method="POST" class="post-form" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
@@ -29,32 +29,34 @@
         <a href="{% url "login" %}" class="btn btn-primary btn-lg active" role="button" disabled>Войти</a><br>
     {% endif %}
 
-
-    <div id="map"></div>
-    <script>
-        var map = L.map('map').setView([11, 79], 10);
-        data = {};
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        var gcs = L.esri.Geocoding.geocodeService();
-        var count = 0;
-        map.on('click', (e) => {
-            count += 1;
-            gcs.reverse().latlng(e.latlng).run((err, res) => {
-                if (err) return;
-                L.marker(res.latlng).addTo(map).bindPopup(res.address.Match_addr).openPopup();
-                k = count.toString()
-                data[k + 'lat'] = res.latlng['lat'];
-                data[k + 'lon'] = res.latlng['lng'];
-                if (count == 2) {
-                    const route_url = 'http://localhost:8000/' + data['1lat'] + ',' + data['1lon'] + ',' + data['2lat'] + ',' + data['2lon'];
-                    count = 0;
-                    window.location.replace(route_url);
-                }
-            });
-        });
-    </script>
+    <div id="map">
+        <div class=" map container">
+            <script>
+                var map = L.map('map').setView([53.9018, 27.5610], 10);
+                data = {};
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                var gcs = L.esri.Geocoding.geocodeService();
+                var count = 0;
+                map.on('click', (e) => {
+                    count += 1;
+                    gcs.reverse().latlng(e.latlng).run((err, res) => {
+                        if (err) return;
+                        L.marker(res.latlng).addTo(map).bindPopup(res.address.Match_addr).openPopup();
+                        k = count.toString()
+                        data[k + 'lat'] = res.latlng['lat'];
+                        data[k + 'lon'] = res.latlng['lng'];
+                        if (count == 2) {
+                            const route_url = 'http://localhost:8000/' + data['1lat'] + ',' + data['1lon'] + ',' + data['2lat'] + ',' + data['2lon'];
+                            count = 0;
+                            window.location.replace(route_url);
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
     </body>
 
 {% endblock %}

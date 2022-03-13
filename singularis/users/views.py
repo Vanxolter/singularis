@@ -62,6 +62,7 @@ def register(request):
             pas2 = user.set_password(form.cleaned_data["password2"])
             if pas1 == pas2:
                 user.save()
+                logger.info(f"Пользователь {form.cleaned_data} зарегестрировался")
                 login(request, user)
             return redirect("home")
         #Добавить ошибку "Пороли не совподают"

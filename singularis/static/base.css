@@ -1,5 +1,5 @@
 .full {
-    background-color: rgba(188, 180, 208, 0.7);
+    background-color: rgba(245, 213, 196, 0.7);
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
@@ -12,22 +12,10 @@
 }
 
 .navbar {
-    background-color: rgba(134, 140, 217, 0.7);
-    background-size: cover;
+    background-color: rgba(229, 154, 114, 0.7);
 }
 
 
 
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
-#map {
-  height: 100%;
-}
-
-/* Optional: Makes the sample page fill the window. */
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}

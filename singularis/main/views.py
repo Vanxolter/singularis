@@ -48,7 +48,8 @@ def showmap(request):
             return redirect("showmap")
     else:
         form = LocationForm()
-    return render(request,'main/showmap.html', {"form": form})
+    coordinates = StartLoc.objects.last()
+    return render(request,'main/showmap.html', {"form": form, "coordinates": coordinates})
 
 
 def showroute(request,lat1,long1,lat2,long2):
