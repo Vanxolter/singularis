@@ -26,8 +26,8 @@ urlpatterns = [
     path("register/", register, name="register"),  # РЕГИСТРАЦИЯ
     #path("register/", SignUpView.as_view(), name="register"),  # РЕГИСТРАЦИЯ через класс
     path("logouthtml/", logout_view, name="logout"),  # ВЫХОД ИЗ ПРОФИЛЯ
-    path("main/", start, name="home"),  # ДОМАШНЯЯ СТРАНИЦА
+    path("", start, name="home"),  # ДОМАШНЯЯ СТРАНИЦА
 
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', showroute, name='showroute'),
-    path('', showmap, name='showmap'),
+    path('showmap/', showmap, name='showmap'),
 ]
