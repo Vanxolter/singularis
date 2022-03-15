@@ -1,6 +1,6 @@
 import requests
 import polyline
-from main.models import StartLoc
+from main.models import RouteCoordinates
 
 import logging
 

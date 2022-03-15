@@ -32,7 +32,7 @@
     <div id="map">
         <div class=" map container">
             <script>
-                var map = L.map('map').setView([53.9018, 27.5610], 10);
+                var map = L.map('map').setView([{{coordinates.places_long}}, {{coordinates.places_lat}}], 10);
                 data = {};
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'

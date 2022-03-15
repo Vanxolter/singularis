@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 
-class StartLoc(models.Model):
+class RouteCoordinates(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="location")
     startlong: float = models.FloatField(verbose_name="Стартовая Долгота", null=True, blank=True)
     startlat: float = models.FloatField(verbose_name="Стартовая Широта", null=True, blank=True)
@@ -11,7 +11,12 @@ class StartLoc(models.Model):
     endlat: float = models.FloatField(verbose_name="Конечная Широта", null=True, blank=True)
 
 
-'''Убрать ограничитель наполя поставитть TextField (Почистить и перезалить базу)'''
+class Places(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="places")
+    places_long: float = models.FloatField(verbose_name="Долгота места", null=True, blank=True)
+    places_lat: float = models.FloatField(verbose_name="Широта места", null=True, blank=True)
+
+
 class Airports(models.Model):
     airid: int = models.CharField(verbose_name="airports id",max_length=400, null=True, blank=True)
     ident: str = models.CharField(verbose_name="ident code", max_length=400, null=True, blank=True)
