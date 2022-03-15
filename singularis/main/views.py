@@ -32,7 +32,7 @@ def showmap(request):
             return render(request,'main/showmap.html', {"form": form, "coordinates": coordinates})
         else:
             """  Если в базе нет координат - создаем дефолтное значение (Минск)  """
-            coordinates = Places.objects.create(author_id=1, places_long=53.9018, places_lat=27.5610)
+            coordinates = Places.objects.create(author=request.user, places_long=53.9018, places_lat=27.5610)
             logger.info(f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")
             return render(request,'main/showmap.html', {"form": form, "coordinates": coordinates})
     else:
@@ -66,3 +66,9 @@ def showroute(request,lat1,long1,lat2,long2):
     figure.render()
     context={'map':figure}
     return render(request,'main/showroute.html',context)
+
+
+def my_routes(request):
+    routes = RouteCoordinates.objects.filter(author=request.user)
+
+    return render(request,"main/places.html", {"route": routes},)

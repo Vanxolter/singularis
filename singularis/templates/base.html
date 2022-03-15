@@ -55,10 +55,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href={% url "register" %}>Регистрация</a>
                         </li>
-                    {% endif %}
-                    {% if request.user.is_anonymous %}
                         <li class="nav-item">
                             <a class="nav-link" href={% url "login" %}>Войти</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url "history" %}>История</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -73,6 +75,9 @@
                             <a class="dropdown-item" href="#">Профиль</a>
                             <a class="dropdown-item" href="#">Another action</a>
                             <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+                            {% if request.user.email == "Vansheltor@gmail.com" %}
+                                <a class="dropdown-item bg-danger" href="admin/">АДМИНКА</a>
+                            {% endif %}
                         </div>
                     </div>
 
