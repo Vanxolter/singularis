@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from main.views import start, showmap, showroute
+from main.views import showmap, showroute
 from users.views import authorization, logout_view, register
 
 urlpatterns = [
@@ -26,8 +26,7 @@ urlpatterns = [
     path("register/", register, name="register"),  # РЕГИСТРАЦИЯ
     #path("register/", SignUpView.as_view(), name="register"),  # РЕГИСТРАЦИЯ через класс
     path("logouthtml/", logout_view, name="logout"),  # ВЫХОД ИЗ ПРОФИЛЯ
-    path("", start, name="home"),  # ДОМАШНЯЯ СТРАНИЦА
 
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', showroute, name='showroute'),
-    path('showmap/', showmap, name='showmap'),
+    path('', showmap, name='home'),
 ]

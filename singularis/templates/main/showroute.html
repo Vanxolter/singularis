@@ -8,7 +8,7 @@
     {{ map.header.render|safe }}
     <style>
         .folium-map {
-            background: chartreuse;
+            border: 30px crimson;
             min-height: 650px;
         }
     </style>
@@ -22,6 +22,7 @@
             {{map.script.render|safe}}
         </script>
 {% endif %}
+        <p>Ганица блока</p>
     </div>
 </body>
 {% endblock %}

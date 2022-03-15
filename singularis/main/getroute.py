@@ -1,6 +1,10 @@
-
 import requests
 import polyline
+from main.models import StartLoc
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def get_route(pickup_lon, pickup_lat, dropoff_lon, dropoff_lat):

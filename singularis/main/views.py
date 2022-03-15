@@ -14,7 +14,8 @@ logger = logging.getLogger(__name__)
 Если база пустая и карте не откуда брать данные дл отображение - происходит exceptи создается дефолтная точка
 код повторяется - ПОЧИСТИТЬ
 """
-def start(request):
+
+def showmap(request):
     if request.method == "POST":
         form = LocationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -23,36 +24,14 @@ def start(request):
             return redirect("home")
     else:
         form = LocationForm()
-
-    coordinates = StartLoc.objects.last()
-    try:
-        latkoef = float(coordinates.startlat) * 0.99805
-        longkoef = float(coordinates.startlong) * 0.99956
-        return render(request, "main/map.html",
-                      {"coordinates": coordinates, "latkoef": latkoef, "longkoef": longkoef, "form": form})
-    except AttributeError: # Срабатывает если база пустая и неоткуда доставать координаты
-        coordinates = StartLoc.objects.create(author_id=1, startlat=53.9039, startlong=27.5546)
-        latkoef = float(coordinates.startlat) * 0.99805
-        longkoef = float(coordinates.startlong) * 0.99956
-        logger.info(f" Создаю новую точку ")
-        return render(request, "main/map.html",
-                      {"coordinates": coordinates, "latkoef": latkoef, "longkoef": longkoef, "form": form})
-
-
-def showmap(request):
-    if request.method == "POST":
-        form = LocationForm(request.POST, request.FILES)
-        if form.is_valid():
-            coordinates = StartLoc.objects.create(author=request.user, **form.cleaned_data)
-            logger.info(f"{request.user} added a new coordinates - {coordinates} ")
-            return redirect("showmap")
-    else:
-        form = LocationForm()
     coordinates = StartLoc.objects.last()
     return render(request,'main/showmap.html', {"form": form, "coordinates": coordinates})
 
 
 def showroute(request,lat1,long1,lat2,long2):
+    logger.info(f"{lat1} / {long1} / {lat2} / {long2}")
+    coordinates = StartLoc.objects.create(author=request.user, startlong=lat1, startlat=long1, endlong=lat2, endlat=long2)
+    logger.info(f"{request.user} search route with this coordinates - {coordinates} ")
     figure = folium.Figure()
     lat1,long1,lat2,long2=float(lat1),float(long1),float(lat2),float(long2)
     route=getroute.get_route(long1,lat1,long2,lat2)
