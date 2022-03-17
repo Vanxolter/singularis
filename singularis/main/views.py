@@ -4,6 +4,7 @@ import folium
 from main import getroute
 from main.forms import SearchPlacesForm
 from main.models import RouteCoordinates, Places
+from geopy.geocoders import Nominatim
 
 import logging
 
@@ -18,8 +19,12 @@ def showmap(request):
     if request.method == "POST":
         form = SearchPlacesForm(request.POST, request.FILES)
         if form.is_valid():
-            coordinates = Places.objects.create(author=request.user, **form.cleaned_data)
-            logger.info(f"{request.user} added a new coordinates - {coordinates.places_long}/{coordinates.places_lat} ")
+            name = Places.objects.create(author=request.user, **form.cleaned_data) # Получаю из формы НАЗВАНИЕ места и забиваю его в базу, пока-что без координат
+            logger.info(f"{request.user} added name in DB - {name.name} ")
+            geolocator = Nominatim(user_agent="my_request") # Обращаюсь к библиотечке для геокодирования, а как она работает не е*у (Инкапсуляция) ¯\_(ツ)_/¯
+            location = geolocator.geocode(name.name) # Геокодирую по назвнию точки
+            logger.info(f"{request.user} added location - {location.latitude} ")
+            coordinates = Places.objects.filter(id=name.id).update(places_long=location.latitude, places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
             return redirect("home")
     else:
         form = SearchPlacesForm()
@@ -47,7 +52,7 @@ def showmap(request):
             coordinates = Places.objects.create(author_id=1, places_long=53.9018, places_lat=27.5610)
             logger.info(
                 f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")
-            return render(request, 'main/showmap.html', {"form": form, "coordinates": coordinates})
+            return render(request, 'main/showmap.html', {"form": form, "coordinates": coordinates, "zoom": zoom})
 
 
 def showroute(request,lat1,long1,lat2,long2):

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'main',
     'users',
+    'transports'
 ]
 
 MIDDLEWARE = [
