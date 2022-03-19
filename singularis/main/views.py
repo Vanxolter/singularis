@@ -23,36 +23,77 @@ def showmap(request):
             logger.info(f"{request.user} added name in DB - {name.name} ")
             geolocator = Nominatim(user_agent="my_request") # Обращаюсь к библиотечке для геокодирования, а как она работает не е*у (Инкапсуляция) ¯\_(ツ)_/¯
             location = geolocator.geocode(name.name) # Геокодирую по назвнию точки
-            logger.info(f"{request.user} added location - {location.latitude} ")
+            logger.info(f"{request.user} added location - {location.address} ")
             coordinates = Places.objects.filter(id=name.id).update(name=location.address, places_long=location.latitude, places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
             return redirect("home")
     else:
-        form = SearchPlacesForm()
-    if request.user.is_authenticated:
-        """  Если пользователь авторизирован - при заходе на сайт грузится карта с его последним поиском  """
-        coordinates = Places.objects.filter(author=request.user).last()
-        if coordinates:
-            """  Если в базе есть координаты - отображаем последние введенные  """
-            logger.info(f"{request.user} search place by coordinates - {coordinates.places_long} / {coordinates.places_lat} ")
-            return render(request,'main/showmap.html', {"form": form, "coordinates": coordinates})
+        form = SearchPlacesForm
+        if request.user.is_authenticated:
+            """  Если пользователь авторизирован - при заходе на сайт грузится карта с его последнего сеанса  """
+            coordinates = Places.objects.filter(author=request.user).last()
+
+            # Блок условия для настройки зума в мапе (Повторяется в каждом условии :( )
+            names = coordinates.name
+            lst = names.split(",")
+            if len(lst) == 1:
+                zoom = 7
+            elif len(lst) == 2:
+                zoom = 10
+            else:
+                zoom = 20
+
+            if coordinates:
+                """  Если в базе есть координаты - отображаем последние введенные  """
+                logger.info(f"{request.user} search place by coordinates - {coordinates.places_long} / {coordinates.places_lat} ")
+                return render(request,'main/showmap.html', {"form": form, "coordinates": coordinates, "zoom": zoom})
+            else:
+                """  Если в базе нет координат - создаем дефолтное значение (Минск)  """
+                coordinates = Places.objects.create(author=request.user, name="Минск, Беларусь", places_long=53.9018, places_lat=27.5610)
+                # Блок условия для настройки зума в мапе (Повторяется в каждом условии :( )
+                names = coordinates.name
+                lst = names.split(",")
+                if len(lst) == 1:
+                    zoom = 7
+                elif len(lst) == 2:
+                    zoom = 10
+                else:
+                    zoom = 20
+
+                logger.info(f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")
+                return render(request,'main/showmap.html', {"form": form, "coordinates": coordinates, "zoom": zoom})
         else:
-            """  Если в базе нет координат - создаем дефолтное значение (Минск)  """
-            coordinates = Places.objects.create(author=request.user, places_long=53.9018, places_lat=27.5610)
-            logger.info(f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")
-            return render(request,'main/showmap.html', {"form": form, "coordinates": coordinates})
-    else:
-        """  Если пользователь НЕ авторизован выводим на экран координаты с первой строки базы (по дефолту всегда Минск)  """
-        coordinates = Places.objects.first()
-        if coordinates:
-            logger.info(
-                f"{request.user} sees defoult place - {coordinates.places_long} / {coordinates.places_lat} ")
-            return render(request, 'main/showmap.html', {"form": form, "coordinates": coordinates})
-        else:
-            """  Если в базе нет координат - создаем дефолтное значение (Минск)  """
-            coordinates = Places.objects.create(author_id=1, places_long=53.9018, places_lat=27.5610)
-            logger.info(
-                f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")
-            return render(request, 'main/showmap.html', {"form": form, "coordinates": coordinates, "zoom": zoom})
+            """  Если пользователь НЕ авторизован выводим на экран координаты с первой строки базы (по дефолту всегда Минск)  """
+            coordinates = Places.objects.first()
+            # Блок условия для настройки зума в мапе (Повторяется в каждом условии :( )
+            names = coordinates.name
+            lst = names.split(",")
+            if len(lst) == 1:
+                zoom = 7
+            elif len(lst) == 2:
+                zoom = 10
+            else:
+                zoom = 20
+
+            if coordinates:
+                logger.info(
+                    f"{request.user} sees defoult place - {coordinates.places_long} / {coordinates.places_lat} ")
+                return render(request, 'main/showmap.html', {"form": form, "coordinates": coordinates, "zoom": zoom})
+            else:
+                """  Если в базе нет координат - создаем дефолтное значение (Минск)  """
+                coordinates = Places.objects.create(author=request.user, name="Минск, Беларусь", places_long=53.9018, places_lat=27.5610)
+                # Блок условия для настройки зума в мапе (Повторяется в каждом условии :( )
+                names = coordinates.name
+                lst = names.split(",")
+                if len(lst) == 1:
+                    zoom = 7
+                elif len(lst) == 2:
+                    zoom = 10
+                else:
+                    zoom = 20
+
+                logger.info(
+                    f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")
+                return render(request, 'main/showmap.html', {"form": form, "coordinates": coordinates, "zoom": zoom})
 
 
 def showroute(request,lat1,long1,lat2,long2):

@@ -44,7 +44,7 @@
                     <div id="map">
                         <div class=" map container ">
                             <script>
-                                var map = L.map('map').setView([{{coordinates.places_long}}, {{coordinates.places_lat}}], 10);
+                                var map = L.map('map').setView([{{coordinates.places_long}}, {{coordinates.places_lat}}], {{ zoom }});
                                 data = {};
                                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                                     attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
