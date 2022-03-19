@@ -14,6 +14,7 @@ from singularis.mixins import (
 
 logger = logging.getLogger(__name__)
 
+
 def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -58,6 +59,6 @@ def authorization(request):
 def logout_view(request):
     logger.info(f"Пользователь {request.user} вышел из своего аккаунта")
     logout(request)
-    return redirect("/")
+    return redirect("/main")
 
 

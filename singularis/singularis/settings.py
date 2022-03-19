@@ -168,19 +168,21 @@ LOGGING = {
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
-            "level": "INFO",
         },
     },
     "root": {
         "handlers": ["console"],
         "level": "INFO",
     },
+    "scrapy.core.scraper": {
+        "handlers": [],
+        "level": "ERROR",
+    },
     "django.db.backends": {
         "handlers": ["console"],
         "level": "ERROR",
     },
 }
-
 
 REST_FRAMEWORK = {
    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",

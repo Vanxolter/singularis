@@ -24,7 +24,7 @@ def showmap(request):
             geolocator = Nominatim(user_agent="my_request") # Обращаюсь к библиотечке для геокодирования, а как она работает не е*у (Инкапсуляция) ¯\_(ツ)_/¯
             location = geolocator.geocode(name.name) # Геокодирую по назвнию точки
             logger.info(f"{request.user} added location - {location.latitude} ")
-            coordinates = Places.objects.filter(id=name.id).update(places_long=location.latitude, places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
+            coordinates = Places.objects.filter(id=name.id).update(name=location.address, places_long=location.latitude, places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
             return redirect("home")
     else:
         form = SearchPlacesForm()

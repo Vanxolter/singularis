@@ -3,10 +3,12 @@
 
 
 {% block content %}
-    <h1>Регистрация</h1>
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="save btn btn-primary">Регистрация</button>
-    </form>
+    <div class="container">
+        <h1>Регистрация</h1>
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="save btn btn-primary">Регистрация</button>
+        </form>
+    </div>
 {% endblock %}
