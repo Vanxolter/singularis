@@ -29,7 +29,7 @@ class TestCreateUser:
         coordinates = Places.objects.create(author=user, name="Test", places_long=0, places_lat=0)
 
         # Тест на главную страницу
-        response = client.get("/main/")
+        response = client.get("")
         assert response.status_code == 200
 
         # Тест страницу с маршрутом

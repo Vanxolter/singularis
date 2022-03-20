@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import folium
 from main import getroute
-from main.forms import SearchPlacesForm
+from main.forms import SearchPlacesForm, SearchRouteForm
 from main.models import RouteCoordinates, Places
 from geopy.geocoders import Nominatim
 
@@ -75,5 +75,14 @@ def showroute(request,lat1,long1,lat2,long2):
 
 def my_routes(request):
     routes = RouteCoordinates.objects.filter(author=request.user)
-
     return render(request,"main/places.html", {"route": routes},)
+
+
+'''def search_route(request):
+    if request.method == "POST":
+        form = SearchRouteForm(request.POST)
+        if form.is_valid():
+            name = RouteCoordinates.objects.create(author=request.user, **form.cleaned_data)
+    else:
+        form = SearchRouteForm
+        return render(request, 'main/routers_form.html', {"form": form})'''

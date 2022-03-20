@@ -4,11 +4,24 @@
 
 
 {% block content %}
-    <br>
-    <div class="container">
 
-        <div class="row" >
-            <div class="col-2">
+    <head>
+        <style>
+            #map {
+                position: static;
+            }
+
+            .map {
+                min-height: 650px;
+            }
+        </style>
+    </head>
+    </body>
+    <br>
+
+
+        <div class="row">
+            <div class="col-2" style="padding-left: 50px">
                 {% if request.user.is_authenticated %}
                     <form method="POST" class="post-form" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -20,27 +33,10 @@
                     <a href="{% url "login" %}" class="btn btn-primary btn-lg active" role="button" disabled>Войти</a>
                     <br>
                 {% endif %}
-
-            <script>
-
-            </script>
             </div>
 
-            <div class="col-10">
+            <div class="col-8">
                 <div class="container" style="background: rgba(229, 154, 114, 0.7); padding: 10px">
-                    <head>
-                        <style>
-                            #map {
-                                position: static;
-                            }
-
-                            .map {
-                                min-height: 650px;
-                            }
-                        </style>
-                    </head>
-
-                    <body>
                     <div id="map">
                         <div class=" map container ">
                             <script>
@@ -69,11 +65,61 @@
                             </script>
                         </div>
                     </div>
+
+                    <div class="pos-f-t">
+                        <div class="collapse" id="navbarToggleExternalContent">
+                            <div class="bg-dark p-4">
+                                <h4 class="text-white">Collapsed content</h4>
+                                <span class="text-muted">Toggleable via the navbar brand.</span>
+                            </div>
+                        </div>
+                        <nav class="navbar navbar-dark bg-red">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                    data-target="#navbarToggleExternalContent"
+                                    aria-controls="navbarToggleExternalContent" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </nav>
+                    </div>
                     <p>Ганица блока</p>
-                    </body>
                 </div>
             </div>
-        </div>
-    </div>
 
+            <div class="col-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Пешком
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        На велосипеде
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        На машине
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        На автобусе
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        На самолете
+                    </label>
+                </div>
+
+            </div>
+
+            </div>
+    </body>
 {% endblock %}

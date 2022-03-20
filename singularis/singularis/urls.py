@@ -30,5 +30,5 @@ urlpatterns = [
     path("history/", my_routes, name="history"),  # ИСТОРИЯ ПОИСКА ДОРОГИ
 
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', showroute, name='showroute'),
-    path("main/", showmap, name='home'), # ДОМАШНЯЯ СТРАНИЦА
+    path("", showmap, name='home'), # ДОМАШНЯЯ СТРАНИЦА
 ]

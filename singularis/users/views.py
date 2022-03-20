@@ -59,6 +59,6 @@ def authorization(request):
 def logout_view(request):
     logger.info(f"Пользователь {request.user} вышел из своего аккаунта")
     logout(request)
-    return redirect("/main")
+    return redirect("/")
 
 
