@@ -19,3 +19,8 @@
     background-color: rgba(225, 188, 168, 0.7);
     border: rgba(245, 213, 196, 0.7);
 }
+
+
+#carouselExampleSlidesOnly .carousel-item {
+    height: 900px;
+}

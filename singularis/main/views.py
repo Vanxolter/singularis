@@ -73,11 +73,6 @@ def showroute(request,lat1,long1,lat2,long2):
     return render(request,'main/showroute.html',context)
 
 
-def my_routes(request):
-    routes = RouteCoordinates.objects.filter(author=request.user)
-    return render(request,"main/places.html", {"route": routes},)
-
-
 '''def search_route(request):
     if request.method == "POST":
         form = SearchRouteForm(request.POST)

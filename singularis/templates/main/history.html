@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static crispy_forms_filters %}
+
+{% block title %}Моя история{% endblock %}
+
+{% block content %}
+    <main class="places" style="height: 900px">
+        <div class="places" style="padding-left: 100px; padding-right: 100px">
+            <h1>История моих мест</h1>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+                <tr>
+                    <th>Название</th>
+                    <th>Долгота</th>
+                    <th>Широта</th>
+                    <th></th>
+                </tr>
+                {% for place in places %}
+                    <tr>
+                        <td>{{ place.name }}</td>
+                        <td>{{ place.places_long }}</td>
+                        <td>{{ place.places_lat }}</td>
+                        <td>
+                            <button type="button" class="close" aria-label="Close">
+                                <a href="{% url "delete_place" place.id %}" aria-hidden="true" role="button"
+                                   aria-pressed="true" style="color: crimson">&times;</a>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="places " style="background: #fdcbaf; padding-left: 100px; padding-right: 100px">
+            <h1>История моих маршрутов</h1>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+                <tr>
+                    <th>name_from</th>
+                    <th>name_to</th>
+                    <th></th>
+                </tr>
+                {% for route in routes %}
+                    <tr>
+                        <td>{{ route.startlong }}</td>
+                        <td>{{ route.endlong }}</td>
+                        <td>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </main>
+{% endblock %}

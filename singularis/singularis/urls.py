@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from main.views import showmap, showroute, my_routes
+from history.views import my_history, delete_place
+from main.views import showmap, showroute
 from users.views import authorization, logout_view, register
 
 urlpatterns = [
@@ -27,7 +28,8 @@ urlpatterns = [
     #path("register/", SignUpView.as_view(), name="register"),  # РЕГИСТРАЦИЯ через класс
     path("logouthtml/", logout_view, name="logout"),  # ВЫХОД ИЗ ПРОФИЛЯ
 
-    path("history/", my_routes, name="history"),  # ИСТОРИЯ ПОИСКА ДОРОГИ
+    path("history/", my_history, name="history"),  # ИСТОРИЯ ПОИСКА
+    path("delete/<int:place_id>/", delete_place, name="delete_place"),  # УДАЛЕНИЕ ПОСТА
 
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', showroute, name='showroute'),
     path("", showmap, name='home'), # ДОМАШНЯЯ СТРАНИЦА
