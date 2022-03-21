@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from history.views import my_history, delete_place
+from history.views import my_history, delete_place, delete_route
 from main.views import showmap, showroute
 from users.views import authorization, logout_view, register
 
@@ -29,7 +29,8 @@ urlpatterns = [
     path("logouthtml/", logout_view, name="logout"),  # ВЫХОД ИЗ ПРОФИЛЯ
 
     path("history/", my_history, name="history"),  # ИСТОРИЯ ПОИСКА
-    path("delete/<int:place_id>/", delete_place, name="delete_place"),  # УДАЛЕНИЕ ПОСТА
+    path("delete/<int:place_id>/", delete_place, name="delete_place"),  # УДАЛЕНИЕ МЕСТА
+    path("delete/<int:route_id>/", delete_route, name="delete_route"),  # УДАЛЕНИЕ МАРШРУТА
 
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', showroute, name='showroute'),
     path("", showmap, name='home'), # ДОМАШНЯЯ СТРАНИЦА

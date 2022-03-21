@@ -17,3 +17,11 @@ def delete_place(request, place_id):
     logger.info(f"Place with id = {place}, successfully deleted!")
     place.delete()
     return redirect("history")
+
+
+# УДАЛЕНИЕ МАРШРУТА
+def delete_route(request, route_id):
+    route = get_object_or_404(RouteCoordinates, id=route_id)
+    logger.info(f"Route with id = {route}, successfully deleted!")
+    route.delete()
+    return redirect("history")

@@ -20,106 +20,111 @@
     <br>
 
 
-        <div class="row">
-            <div class="col-2" style="padding-left: 50px">
-                {% if request.user.is_authenticated %}
-                    <form method="POST" class="post-form" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <button type="submit" class="save btn btn-primary">Найти</button>
-                    </form>
-                {% else %}
-                    <p>Для введения координат вам требуется авторизироваться</p>
-                    <a href="{% url "login" %}" class="btn btn-primary btn-lg active" role="button" disabled>Войти</a>
-                    <br>
-                {% endif %}
-            </div>
+    <div class="row align-items-start" style="--bs-gutter-x: 0rem;">
 
-            <div class="col-8">
-                <div class="container" style="background: rgba(229, 154, 114, 0.7); padding: 10px">
-                    <div id="map">
-                        <div class=" map container ">
-                            <script>
-                                var map = L.map('map').setView([{{coordinates.places_long}}, {{coordinates.places_lat}}], 10);
-                                data = {};
-                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-                                }).addTo(map);
-                                var gcs = L.esri.Geocoding.geocodeService();
-                                var count = 0;
-                                map.on('click', (e) => {
-                                    count += 1;
-                                    gcs.reverse().latlng(e.latlng).run((err, res) => {
-                                        if (err) return;
-                                        L.marker(res.latlng).addTo(map).bindPopup(res.address.Match_addr).openPopup();
-                                        k = count.toString()
-                                        data[k + 'lat'] = res.latlng['lat'];
-                                        data[k + 'lon'] = res.latlng['lng'];
-                                        if (count == 2) {
-                                            const route_url = 'http://localhost:8000/' + data['1lat'] + ',' + data['1lon'] + ',' + data['2lat'] + ',' + data['2lon'];
-                                            count = 0;
-                                            window.location.replace(route_url);
-                                        }
-                                    });
+        <div class="col" style="padding-left: 20px">
+            {% if request.user.is_authenticated %}
+                <form method="POST" class="post-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="save btn btn-primary">Найти</button>
+                </form>
+            {% else %}
+                <p>Для введения координат вам требуется авторизироваться</p>
+                <a href="{% url "login" %}" class="btn btn-primary btn-lg active" role="button" disabled>Войти</a>
+                <br>
+            {% endif %}
+        </div>
+
+        <div class="col-8" style="padding-left: 30px; padding-right: 30px">
+            <div class="container" style="background: rgba(229, 154, 114, 0.7); padding: 10px">
+                <div id="map">
+                    <div class=" map container ">
+                        <script>
+                            var map = L.map('map').setView([{{coordinates.places_long}}, {{coordinates.places_lat}}], 10);
+                            data = {};
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+                            }).addTo(map);
+                            var gcs = L.esri.Geocoding.geocodeService();
+                            var count = 0;
+                            map.on('click', (e) => {
+                                count += 1;
+                                gcs.reverse().latlng(e.latlng).run((err, res) => {
+                                    if (err) return;
+                                    L.marker(res.latlng).addTo(map).bindPopup(res.address.Match_addr).openPopup();
+                                    k = count.toString()
+                                    data[k + 'lat'] = res.latlng['lat'];
+                                    data[k + 'lon'] = res.latlng['lng'];
+                                    if (count == 2) {
+                                        const route_url = 'http://localhost:8000/' + data['1lat'] + ',' + data['1lon'] + ',' + data['2lat'] + ',' + data['2lon'];
+                                        count = 0;
+                                        window.location.replace(route_url);
+                                    }
                                 });
-                            </script>
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <div class="pos-f-t">
+                    <div class="collapse" id="navbarToggleExternalContent">
+                        <div class="bg-dark p-4">
+                            <h4 class="text-white">Collapsed content</h4>
+                            <span class="text-muted">Toggleable via the navbar brand.</span>
                         </div>
                     </div>
-
-                    <div class="pos-f-t">
-                        <div class="collapse" id="navbarToggleExternalContent">
-                            <div class="bg-dark p-4">
-                                <h4 class="text-white">Collapsed content</h4>
-                                <span class="text-muted">Toggleable via the navbar brand.</span>
-                            </div>
-                        </div>
-                        <nav class="navbar navbar-dark bg-red">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                    data-target="#navbarToggleExternalContent"
-                                    aria-controls="navbarToggleExternalContent" aria-expanded="false"
-                                    aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                        </nav>
-                    </div>
-                    <p>Ганица блока</p>
+                    <nav class="navbar navbar-dark bg-red">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarToggleExternalContent"
+                                aria-controls="navbarToggleExternalContent" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </nav>
                 </div>
+                <p>Ганица блока</p>
             </div>
+        </div>
 
-            <div class="col-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Пешком
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        На велосипеде
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        На машине
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        На автобусе
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        На самолете
-                    </label>
-                </div>
-
+        <div class="col" style="padding-right: ;: 20px">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Пешком
+                </label>
             </div>
-
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    На велосипеде
+                </label>
             </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    На машине
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    На автобусе
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    На самолете
+                </label>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     </body>
 {% endblock %}

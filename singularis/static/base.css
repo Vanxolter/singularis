@@ -1,8 +1,5 @@
 .full {
     background-color: rgba(245, 213, 196, 0.7);
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -22,5 +19,5 @@
 
 
 #carouselExampleSlidesOnly .carousel-item {
-    height: 900px;
+    height: 450px;
 }

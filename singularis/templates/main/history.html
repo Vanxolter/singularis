@@ -5,49 +5,75 @@
 {% block title %}Моя история{% endblock %}
 
 {% block content %}
-    <main class="places" style="height: 900px">
-        <div class="places" style="padding-left: 100px; padding-right: 100px">
-            <h1>История моих мест</h1>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
-                <tr>
-                    <th>Название</th>
-                    <th>Долгота</th>
-                    <th>Широта</th>
-                    <th></th>
-                </tr>
-                {% for place in places %}
-                    <tr>
-                        <td>{{ place.name }}</td>
-                        <td>{{ place.places_long }}</td>
-                        <td>{{ place.places_lat }}</td>
-                        <td>
-                            <button type="button" class="close" aria-label="Close">
-                                <a href="{% url "delete_place" place.id %}" aria-hidden="true" role="button"
-                                   aria-pressed="true" style="color: crimson">&times;</a>
-                            </button>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
+    <main class="history" style="height: 923px">
 
-        <div class="places " style="background: #fdcbaf; padding-left: 100px; padding-right: 100px">
-            <h1>История моих маршрутов</h1>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
-                <tr>
-                    <th>name_from</th>
-                    <th>name_to</th>
-                    <th></th>
-                </tr>
-                {% for route in routes %}
-                    <tr>
-                        <td>{{ route.startlong }}</td>
-                        <td>{{ route.endlong }}</td>
-                        <td>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
+        <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel"  >
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+
+                    <div class="places" style="padding-left: 100px; padding-right: 100px">
+                        <h1>История моих мест</h1>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+                            <tr>
+                                <th>Название</th>
+                                <th>Долгота</th>
+                                <th>Широта</th>
+                                <th></th>
+                            </tr>
+                            {% for place in places %}
+                                <tr>
+                                    <td>{{ place.name }}</td>
+                                    <td>{{ place.places_long }}</td>
+                                    <td>{{ place.places_lat }}</td>
+                                    <td>
+                                        <button type="button" class="close" aria-label="Close">
+                                            <a href="{% url "delete_place" place.id %}" aria-hidden="true" role="button"
+                                               aria-pressed="true" style="color: crimson">&times;</a>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+
+                </div>
+                <div class="carousel-item" style="background: #fdcbaf; height: 923px" data-bs-interval="10000">
+
+                    <div class="routes " style="padding-left: 100px; padding-right: 100px">
+                        <h1>История моих маршрутов</h1>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+                            <tr>
+                                <th>name_from</th>
+                                <th>name_to</th>
+                                <th></th>
+                            </tr>
+                            {% for route in routes %}
+                                <tr>
+                                    <td>{{ route.startlong }}</td>
+                                    <td>{{ route.endlong }}</td>
+                                    <td>
+                                        <button type="button" class="close" aria-label="Close">
+                                            <a href="{% url "delete_route" route.id %}" aria-hidden="true" role="button"
+                                               aria-pressed="true" style="color: crimson">&times;</a>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev" style="bottom: 430px; top: 430px; width: 40px">
+                <span class="carousel-control-prev-icon" aria-hidden="true" ></span>
+                <span class="visually-hidden" >Предыдущий</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next" style="bottom: 430px; top: 430px; width: 40px">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следующий</span>
+            </button>
         </div>
     </main>
 {% endblock %}
