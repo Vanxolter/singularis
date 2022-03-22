@@ -1,8 +1,8 @@
 {% load crispy_forms_filters %}
 
 <h2>Проложить</h2>
-<form method="POST" class="note-form">
+<form enctype="multipart/form-data"  method="POST" class="note-form">
     {% csrf_token %}
-    {{ form|crispy }}
+    {{ route_form|crispy }}
     <button type="submit" class="save btn btn-primary">Проложить</button>
 </form>

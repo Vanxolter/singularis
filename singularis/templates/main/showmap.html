@@ -24,9 +24,9 @@
 
         <div class="col" style="padding-left: 20px">
             {% if request.user.is_authenticated %}
-                <form method="POST" class="post-form" enctype="multipart/form-data">
+                <form enctype="multipart/form-data" method="POST" class="post-form" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form|crispy }}
+                    {{ place_form|crispy }}
                     <button type="submit" class="save btn btn-primary">Найти</button>
                 </form>
             {% else %}
@@ -87,7 +87,12 @@
             </div>
         </div>
 
-        <div class="col" style="padding-right: ;: 20px">
+        <div class="col">
+            <form enctype="multipart/form-data" method="POST" class="post-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ route_form|crispy }}
+                <button type="submit" class="save btn btn-primary">Проложить</button>
+            </form>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
                 <label class="form-check-label" for="flexRadioDefault1">
@@ -120,11 +125,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 
     </body>
 {% endblock %}
