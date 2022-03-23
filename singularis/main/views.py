@@ -23,23 +23,25 @@ def showmap(request):
         place_form = SearchPlacesForm(request.POST)
         route_form = SearchRouteForm(request.POST)
         if place_form.is_valid():
-            name = Places.objects.create(author=request.user, **place_form.cleaned_data) # Получаю из формы НАЗВАНИЕ места и забиваю его в базу, пока-что без координат
-            logger.info(f"{request.user} added name in DB - {name.name} ")
+            name = place_form.cleaned_data["name"]
             geolocator = Nominatim(user_agent="my_request") # Обращаюсь к библиотечке для геокодирования, а как она работает не е*у (Инкапсуляция) ¯\_(ツ)_/¯
-            location = geolocator.geocode(name.name) # Геокодирую по назвнию точки
+            location = geolocator.geocode(name) # Геокодирую по назвнию точки
             logger.info(f"{request.user} added location - {location.address} ")
-            coordinates = Places.objects.filter(id=name.id).update(name=location.address, places_long=location.latitude, places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
+            coordinates = Places.objects.create(author=request.user, name=location.address, places_long=location.latitude,
+                                                places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
             return redirect("home")
         elif route_form.is_valid():
-            name = RouteCoordinates.objects.create(author=request.user, **route_form.cleaned_data)
+            name_from = route_form.cleaned_data["name_from"]
+            name_to = route_form.cleaned_data["name_to"]
             geolocator = Nominatim(user_agent="my_request")
-            location1 = geolocator.geocode(name.name_from)
-            location2 = geolocator.geocode(name.name_to)
-            route = RouteCoordinates.objects.filter(id=name.id).update(name_from=location1.address, name_to=location2.address, startlong=location1.latitude, startlat=location1.longitude, endlong=location2.latitude, endlat=location2.longitude)
+            location1 = geolocator.geocode(name_from)
+            location2 = geolocator.geocode(name_to)
+            route = RouteCoordinates.objects.create(author=request.user, name_from=location1.address, name_to=location2.address, startlong=location1.latitude, startlat=location1.longitude, endlong=location2.latitude, endlat=location2.longitude)
             return showroute(request, location1.latitude, location1.longitude, location2.latitude, location2.longitude)
     else:
-        place_form = SearchPlacesForm
+        place_form = SearchPlacesForm()
         route_form = SearchRouteForm()
+        """БЛОК НИЖЕ ОТВЕЧАЕТ ЗА ОТОБРАЖЕНИЕ КАРТЫ ПРИ ПЕРВОМ ЗАХОДЕ НА САЙТ"""
         try:
             coordinates = Places.objects.filter(author=request.user).last()
             if coordinates:
@@ -67,7 +69,7 @@ def showmap(request):
                 return render(request, 'main/showmap.html', {"place_form": place_form, "coordinates": coordinates, "route_form": route_form})
 
 
-def search_route(request):
+"""def search_route(request):
     if request.method == "POST":
         route_form = SearchRouteForm(request.POST)
         if route_form.is_valid():
@@ -75,7 +77,7 @@ def search_route(request):
             return redirect("test")
     else:
         route_form = SearchRouteForm()
-        return render(request, 'main/routers_form.html', {"route_form": route_form})
+        return render(request, 'main/routers_form.html', {"route_form": route_form})"""
 
 
 def showroute(request,lat1,long1,lat2,long2):

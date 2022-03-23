@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from history.views import my_history, delete_place, delete_route
-from main.views import showmap, showroute, search_route
+from main.views import showmap, showroute
 from users.views import authorization, logout_view, register
 
 urlpatterns = [
@@ -35,5 +35,4 @@ urlpatterns = [
 
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', showroute, name='showroute'), #РЕЗУЛЬТАТ ПРОКЛАДКИ МАРШРУТА
     path("", showmap, name='home'), # ДОМАШНЯЯ СТРАНИЦА
-    path("test/", search_route, name='test'), #test
 ]

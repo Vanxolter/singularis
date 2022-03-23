@@ -49,8 +49,8 @@
                             </tr>
                             {% for route in routes %}
                                 <tr>
-                                    <td>{{ route.startlong }}</td>
-                                    <td>{{ route.endlong }}</td>
+                                    <td>{{ route.name_from }}</td>
+                                    <td>{{ route.name_to }}</td>
                                     <td>
                                         <button type="button" class="close" aria-label="Close">
                                             <a href="{% url "delete_route" route.id %}" aria-hidden="true" role="button"
