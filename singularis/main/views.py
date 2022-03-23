@@ -36,7 +36,6 @@ def showmap(request):
             geolocator = Nominatim(user_agent="my_request")
             location1 = geolocator.geocode(name_from)
             location2 = geolocator.geocode(name_to)
-            route = RouteCoordinates.objects.create(author=request.user, name_from=location1.address, name_to=location2.address, startlong=location1.latitude, startlat=location1.longitude, endlong=location2.latitude, endlat=location2.longitude)
             return showroute(request, location1.latitude, location1.longitude, location2.latitude, location2.longitude)
     else:
         place_form = SearchPlacesForm()
@@ -80,8 +79,14 @@ def showmap(request):
         return render(request, 'main/routers_form.html', {"route_form": route_form})"""
 
 
-def showroute(request,lat1,long1,lat2,long2):
-    coordinates = RouteCoordinates.objects.create(author=request.user, startlong=lat1, startlat=long1, endlong=lat2, endlat=long2)
+def showroute(request, lat1, long1, lat2, long2):
+    name_from: list = [lat1, long1]
+    name_to: list = [lat2, long2]
+    geolocator = Nominatim(user_agent="my_request")
+    location1 = geolocator.reverse(name_from)
+    location2 = geolocator.reverse(name_to)
+    coordinates = RouteCoordinates.objects.create(author=request.user, name_from=location1.address, name_to=location2.address,
+                                                  startlong=lat1, startlat=long1, endlong=lat2, endlat=long2)
     logger.info(f"{request.user} search route with coordinates - {coordinates} ")
     figure = folium.Figure()
     lat1,long1,lat2,long2=float(lat1),float(long1),float(lat2),float(long2)

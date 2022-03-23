@@ -2,13 +2,13 @@
 from geopy.geocoders import Nominatim
 
 # address we need to geocode
-loc = 'Minsk'
+loc = [53.9024716, 27.5618225]
 
 # making an instance of Nominatim class
 geolocator = Nominatim(user_agent="my_request")
 
 # applying geocode method to get the location
-location = geolocator.geocode(loc)
+location = geolocator.reverse(loc)
 
 # printing address and coordinates
 print(location.address)
