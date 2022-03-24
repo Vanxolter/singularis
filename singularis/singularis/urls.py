@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from history.views import my_history, delete_place, delete_route
-from main.views import showmap, showroute
+from main.views import showmap, showroute, my_test
 from users.views import authorization, logout_view, register
 
 urlpatterns = [

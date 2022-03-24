@@ -3,12 +3,20 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 
+ORDER_BY_TRANSPORTS = (
+    ("feet", "Ногами"),
+    ("autobus", "Автобусом"),
+    ("train", "Поездом"),
+    ("fly", "Небом"),
+)
+
+
 class RouteCoordinates(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="routs")
-    name_from: str = models.CharField(max_length=400, verbose_name="Откуда", null=True, blank=True)
+    name_from: str = models.CharField(max_length=400, verbose_name="Откуда", null=True, blank=False)
     startlong: float = models.FloatField(verbose_name="Стартовая Долгота", null=True, blank=True)
     startlat: float = models.FloatField(verbose_name="Стартовая Широта", null=True, blank=True)
-    name_to: str = models.CharField(max_length=400, verbose_name="Куда", null=True, blank=True)
+    name_to: str = models.CharField(max_length=400, verbose_name="Куда", null=True, blank=False)
     endlong: float = models.FloatField(verbose_name="Конечная Долгота", null=True, blank=True)
     endlat: float = models.FloatField(verbose_name="Конечная Широта", null=True, blank=True)
 
