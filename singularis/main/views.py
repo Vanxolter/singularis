@@ -11,6 +11,8 @@ from geopy.geocoders import Nominatim
 
 import logging
 
+from transports.views import Transports
+
 logger = logging.getLogger(__name__)
 
 
@@ -47,8 +49,16 @@ def showmap(request):
             train: bool = transport_form.cleaned_data["train"]
             fly: bool = transport_form.cleaned_data["fly"]
             my_choise: dict= {"feet": feet, "autobus": autobus, "train": train, "fly": fly}
-            logger.info(f"check my choise - {my_choise} ")
-            return redirect("home")
+            logger.info(f"check my choise - {my_choise}, {type(my_choise)} ")
+            transports = Transports()
+            if my_choise["feet"]:
+                return transports.walking()
+            elif my_choise["autobus"]:
+                return transports.bus()
+            elif my_choise["train"]:
+                return transports.train()
+            elif my_choise["fly"]:
+                return transports.airplane()
     else:
         place_form = SearchPlacesForm()
         route_form = SearchRouteForm()
@@ -105,7 +115,7 @@ def showroute(request, lat1, long1, lat2, long2):
     return render(request,'main/showroute.html',context)
 
 
-def my_test(request):
+'''def my_test(request):
     transport_list = ['feet', 'autobus', 'train', 'fly']
     if request.method == "POST":
         transports = request.POST.getlist('transports')
@@ -118,7 +128,7 @@ def my_test(request):
             print("You selected train")
         elif transports == ['fly']:
             print("You selected fly")
-    return render(request, "test/checkbox.html")
+    return render(request, "test/checkbox.html")'''
 
 
 '''class MainView(TemplateView):
