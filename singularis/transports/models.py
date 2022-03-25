@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Airports(models.Model):
-    airid: int = models.CharField(verbose_name="airports id",max_length=400, null=True, blank=True)
     ident: str = models.CharField(verbose_name="ident code", max_length=400, null=True, blank=True)
     type: str = models.CharField(verbose_name="type by airports", max_length=400, null=True, blank=True)
     name: str = models.CharField(verbose_name="name airports", max_length=400, null=True, blank=True)

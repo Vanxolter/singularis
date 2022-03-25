@@ -1,9 +1,11 @@
 from django.core.management.base import BaseCommand
 
 from singularis import settings
-from main.models import Airports
+
 import logging
 import csv
+
+from transports.models import Airports
 
 logger = logging.getLogger(__name__)
 
@@ -12,11 +14,10 @@ class Command(BaseCommand):
     help = "All airports in the world"
 
     def handle(self, *args, **options):
-        with open(settings.BASE_DIR / "airports.csv", "r") as file:
+        with open(settings.BASE_DIR / "test.csv", "r") as file:
             reader = csv.reader(file)
             for row in reader:
                 Airports.objects.create(
-                    airid = row[0],
                     ident = row[1],
                     type = row[2],
                     name = row[3],

@@ -2,9 +2,9 @@ from django.shortcuts import render
 import logging
 import folium
 from geopy import Nominatim
-
+from transports.models import Airports
 from main import getroute
-from main.models import RouteCoordinates
+from main.models import RouteCoordinates, Countries
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +50,11 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     geolocator = Nominatim(user_agent="my_request")
     location1 = geolocator.reverse(name_from)
     location2 = geolocator.reverse(name_to)
+    country = location1.address.split(", ")
+    country_code = Countries.objects.get(name=country[-1])
+    airport_from = Airports.objects.filter(iso_country=country_code.code).first()
+    logger.info(f"{country_code.code} - {airport_from.name} ")
+    airport_from = Airports.objects.get(...)
     coordinates = RouteCoordinates.objects.create(author=request.user, name_from=location1.address, name_to=location2.address,
                                                   startlong=lat1, startlat=long1, endlong=lat2, endlat=long2)
     logger.info(f"{request.user} search route with coordinates - {coordinates} ")

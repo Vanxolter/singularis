@@ -27,3 +27,10 @@ class Places(models.Model):
     places_long: float = models.FloatField(verbose_name="Долгота места", null=True, blank=True)
     places_lat: float = models.FloatField(verbose_name="Широта места", null=True, blank=True)
 
+
+class Countries(models.Model):
+    code: str = models.CharField(verbose_name="countries code", max_length=400, null=True, blank=True)
+    name: str = models.CharField(verbose_name="countries name", max_length=400, null=True, blank=True)
+    continent: str = models.CharField(verbose_name="countries continent", max_length=400, null=True, blank=True)
+    wikipedia_link: str = models.URLField(verbose_name="home_link", null=True, blank=True)
+    keywords: str = models.CharField(verbose_name="elevation", max_length=400, null=True, blank=True)
