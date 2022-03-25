@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 from history.views import my_history, delete_place, delete_route
-from main.views import showmap, showroute
+from main.views import showmap
+from transports.views import airplane, auto
 from users.views import authorization, logout_view, register
 
 urlpatterns = [
@@ -33,6 +34,7 @@ urlpatterns = [
     path("delete/<int:place_id>/", delete_place, name="delete_place"),  # УДАЛЕНИЕ МЕСТА
     path("delete/<int:route_id>/", delete_route, name="delete_route"),  # УДАЛЕНИЕ МАРШРУТА
 
-    path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', showroute, name='showroute'), #РЕЗУЛЬТАТ ПРОКЛАДКИ МАРШРУТА
+    path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', airplane, name='fly'), # САМОЛЕТ
+    path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', auto, name='auto'),  # АВТО
     path("", showmap, name='home'), # ДОМАШНЯЯ СТРАНИЦА
 ]

@@ -91,13 +91,10 @@
             <form method="POST" class="post-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ route_form|crispy }}
+                {{ transport_form|crispy }}
                 <button type="submit" class="save btn btn-primary">Проложить</button>
             </form><br>
-            <form method="POST" class="post-form" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ transport_form|crispy }}
-                <button type="submit" class="save btn btn-primary">Выбрать</button>
-            </form>
+
         </div>
     </div>
 
