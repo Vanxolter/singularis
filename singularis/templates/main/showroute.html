@@ -3,7 +3,7 @@
 
 {% block content %}
 <head>
-    {{ map.header.render|safe }}
+
     <style>
         .folium-map {
             min-height: 650px;
@@ -11,28 +11,27 @@
     </style>
 </head>
 <body>
-<div class=" folium-map container">
-{% if map %}
-    {{ map.html.render|safe }}
+    <br>
+<div class="row align-items-start" style="--bs-gutter-x: 0rem;">
+    <div class="col-2">
+    </div>
+    <div class="col-8" style="padding-left: 30px; padding-right: 30px">
+        <div class="container" style="background: rgba(229, 154, 114, 0.7); padding: 10px">
+            <div class=" folium-map ">
+                {% if map %}
+                    {{ map.html.render|safe }}
+                    {{ map.header.render|safe }}
+                    <script>
+                        {{map.script.render|safe}}
+                    </script>
 
-        <script>
-            {{map.script.render|safe}}
-        </script>
-{% endif %}
-    <div class="pos-f-t">
-      <div class="collapse" id="navbarToggleExternalContent">
-        <div class="bg-dark p-4">
-          <h4 class="text-white">Collapsed content</h4>
-          <span class="text-muted">Toggleable via the navbar brand.</span>
+                {% endif %}
+                <p>Граница блока</p>
+            </div>
         </div>
-      </div>
-      <nav class="navbar navbar-dark bg-red">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </nav>
     </div>
-        <p>Граница блока</p>
+    <div class="col-2">
     </div>
+</div>
 </body>
 {% endblock %}

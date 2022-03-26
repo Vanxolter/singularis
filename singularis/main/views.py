@@ -19,7 +19,6 @@ def showmap(request):
     Функция для поиска месста на карте. При работе открывает карту с последними данными из базы Places
     Если база пустая и карте не откуда брать данные для отображение - создаем дефолтное значение
     """
-    transport_list = ['feet', 'autobus', 'train', 'fly']
     if request.method == "POST":
         place_form = SearchPlacesForm(request.POST)
         route_form = SearchRouteForm(request.POST)
