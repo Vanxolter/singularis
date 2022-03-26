@@ -14,7 +14,7 @@ class Command(BaseCommand):
     help = "All airports in the world"
 
     def handle(self, *args, **options):
-        with open(settings.BASE_DIR / "test.csv", "r") as file:
+        with open(settings.BASE_DIR / "airports.csv", "r") as file:
             reader = csv.reader(file)
             for row in reader:
                 Airports.objects.create(
