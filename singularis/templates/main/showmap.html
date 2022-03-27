@@ -46,6 +46,7 @@
                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                                 attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
                             }).addTo(map);
+                            L.marker([{{coordinates.places_long}}, {{coordinates.places_lat}}]).addTo(map).bindPopup("My Marker");
                             var gcs = L.esri.Geocoding.geocodeService();
                             var count = 0;
                             map.on('click', (e) => {

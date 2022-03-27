@@ -26,8 +26,11 @@ def showmap(request):
         if place_form.is_valid(): # Форма поиска мест
             name: str = place_form.cleaned_data["name"]
             geolocator = Nominatim(user_agent="my_request") # Обращаюсь к библиотечке для геокодирования, а как она работает не е*у (Инкапсуляция) ¯\_(ツ)_/¯
+            if not name.isalpha(): # Если в строке содержатся только цифры (координаты, без названия места) мы разбиваем строку через пробел и ищем место через геокодер
+                coord = name.split(" ")
+                name = geolocator.reverse(coord)
             location = geolocator.geocode(name) # Геокодирую по назвнию точки
-            logger.info(f"{request.user} added location - {location.address} ")
+            '''logger.info(f"{request.user} added location - {location.address} ")'''
             coordinates = Places.objects.create(author=request.user, name=location.address, places_long=location.latitude,
                                                 places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
             return redirect("home")
@@ -65,26 +68,26 @@ def showmap(request):
             coordinates = Places.objects.filter(author=request.user).last()
             if coordinates:
                 """  Если в базе есть координаты - отображаем последние введенные  """
-                logger.info(
-                    f"{request.user} search place by coordinates - {coordinates.places_long} / {coordinates.places_lat} ")
+                '''logger.info(
+                    f"{request.user} search place by coordinates - {coordinates.places_long} / {coordinates.places_lat} ")'''
                 return render(request, 'main/showmap.html', {"place_form": place_form, "coordinates": coordinates, "route_form": route_form, "transport_form": transport_form})
             else:
                 """  Если в базе нет координат - создаем дефолтное значение (Минск)  """
                 coordinates = Places.objects.create(author=request.user, name="Минск, Беларусь", places_long=53.9018, places_lat=27.5610)
-                logger.info(
-                    f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")
+                '''logger.info(
+                    f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")'''
                 return render(request, 'main/showmap.html', {"place_form": place_form, "coordinates": coordinates, "route_form": route_form, "transport_form": transport_form})
         except TypeError:
             coordinates = Places.objects.first()
             if coordinates:
-                logger.info(
-                    f"{request.user} sees defoult place - {coordinates.places_long} / {coordinates.places_lat} ")
+                '''logger.info(
+                    f"{request.user} sees defoult place - {coordinates.places_long} / {coordinates.places_lat} ")'''
                 return render(request, 'main/showmap.html', {"place_form": place_form, "coordinates": coordinates, "route_form": route_form, "transport_form": transport_form})
             else:
                 """  Если в базе нет координат - создаем дефолтное значение (Минск)  """
                 coordinates = Places.objects.create(author_id=13, name="Минск, Беларусь", places_long=53.9018, places_lat=27.5610)
-                logger.info(
-                    f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")
+                '''logger.info(
+                    f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")'''
                 return render(request, 'main/showmap.html', {"place_form": place_form, "coordinates": coordinates, "route_form": route_form, "transport_form": transport_form})
 
 
