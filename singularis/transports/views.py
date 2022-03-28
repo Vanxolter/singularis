@@ -60,11 +60,13 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
             latitude_deg__lte=(float(lat1) + 2), longitude_deg__lte=(float(long1) + 2),
             latitude_deg__gte=(float(lat1) - 2), longitude_deg__gte=(float(long1) - 2)).first()
     except AttributeError:
-        airport_from = Airports.objects.filter(iso_country=country_code_1.code, type='medium_airport').filter(
-            latitude_deg__lte=(float(lat1) + 7), longitude_deg__lte=(float(long1) + 7),
-            latitude_deg__gte=(float(lat1) - 7), longitude_deg__gte=(float(long1) - 7)).first()
+        airport_from = Airports.objects.filter(iso_country=country_code_1.code, ).filter(
+            latitude_deg__lte=(float(lat1) + 10), longitude_deg__lte=(float(long1) + 10),
+            latitude_deg__gte=(float(lat1) - 10), longitude_deg__gte=(float(long1) - 10)).first()
     air_lat_1 = airport_from.latitude_deg # Широта первого аэропорта
     air_long_1 = airport_from.longitude_deg # Долгота первого аэропорта
+
+    logger.info(f"КОНТРОЛЬНАЯ ТОЧКА ")
 
     location2 = geolocator.reverse(name_to, language='en')
     country_2 = location2.address.split(", ")
@@ -74,12 +76,10 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
         airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='large_airport').filter(
             latitude_deg__lte=(float(lat2)+2), longitude_deg__lte=(float(long2)+2),
             latitude_deg__gte=(float(lat2)-2), longitude_deg__gte=(float(long2)-2)).first()
-        logger.info(f"Код страны прибытия - {country_code_2.code}, Название аэропорта - {airport_to.name} ")
     except AttributeError:
-        airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='medium_airport').filter(
-            latitude_deg__lte=(float(lat2) + 7), longitude_deg__lte=(float(long2) + 7),
-            latitude_deg__gte=(float(lat2) - 7), longitude_deg__gte=(float(long2) - 7)).first()
-        logger.info(f"Код страны прибытия - {country_code_2.code}, Название аэропорта - {airport_to.name} ")
+        airport_to = Airports.objects.filter(iso_country=country_code_2.code, ).filter(
+            latitude_deg__lte=(float(lat2) + 10), longitude_deg__lte=(float(long2) + 10),
+            latitude_deg__gte=(float(lat2) - 10), longitude_deg__gte=(float(long2) - 10)).first()
     air_lat_2 = airport_to.latitude_deg # Широта второго аэропорта
     air_long_2 = airport_to.longitude_deg # Долгота второго аэропорта
 
