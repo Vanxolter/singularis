@@ -26,8 +26,37 @@ def get_route(pickup_lon, pickup_lat, dropoff_lon, dropoff_lat):
 
     return out
 
-
+# (v.2.0) ВТОРАЯ ВЕРСИЯ ПОСТРОЕНИЯ ВОЗДУШНОГО МАРШРУТА, ПОСТРОЕНИЕ ДОЛЬШЕ Т.К. ЗАДЕЙСТВУЕТ 3 ОТДЕЛЬНЫЕ ИТЕРАЦИИ ДЛЯ ПОТРОЕНИЯ МАРШРУТА
 def get_route_fly(pickup_lon, pickup_lat, air_lat_1, air_long_1, air_lat_2, air_long_2, dropoff_lon, dropoff_lat):
+    loc = [f'{pickup_lon},{pickup_lat};{air_lat_1},{air_long_1}', f'{air_lat_2},{air_long_2};{dropoff_lon},{dropoff_lat}']
+    my_coord = []
+    for i in loc:
+        logger.info(f"My URL - http://router.project-osrm.org/route/v1/driving/{i}?overview=simplified")
+        r = requests.get(f"http://router.project-osrm.org/route/v1/driving/{i}?overview=full") # overview: simplified упрощает линию маршрута, full - отображает высокоточный маршрут
+        if r.status_code!= 200:
+            return {}
+        res = r.json()
+        routes = polyline.decode(res['routes'][0]['geometry'])
+        start_point = [res['waypoints'][0]['location'][1], res['waypoints'][0]['location'][0]]
+        end_point = [res['waypoints'][1]['location'][1], res['waypoints'][1]['location'][0]]
+        distance = res['routes'][0]['distance']
+
+        my_coord.extend([routes, start_point, end_point])
+
+    '''logger.info(f"My coord!!!!!!!!!!!!!!1 - {my_coord}")'''
+    out = {'route1' :my_coord[0],
+           'start_point1' :my_coord[1],
+           'end_point1' :my_coord[2],
+           'route3': my_coord[3],
+           'start_point3': my_coord[4],
+           'end_point3': my_coord[5],
+           }
+
+    return out
+
+
+# (v.1.0) ПЕРВАЯ ВЕРСИЯ ПОСТРОЕНИЯ ВОЗДУШНОГО МАРШРУТА, ПОСТРОЕНИЕ БЫСТРОЕ Т.К. ЗАДЕЙСТВУЕТ ЛИШЬ 1 ИТЕРАЦИЮ ДЛЯ ПОТРОЕНИЯ МАРШРУТА
+'''def get_route_fly(pickup_lon, pickup_lat, air_lat_1, air_long_1, air_lat_2, air_long_2, dropoff_lon, dropoff_lat):
     loc = f"{pickup_lon},{pickup_lat};{air_lat_1},{air_long_1};{air_lat_2},{air_long_2};{dropoff_lon},{dropoff_lat}"
     logger.info(f"My URL - http://router.project-osrm.org/route/v1/driving/{loc}?overview=simplified")
     r = requests.get(f"http://router.project-osrm.org/route/v1/driving/{loc}?overview=full") # overview: simplified упрощает линию маршрута, full - отображает высокоточный маршрут
@@ -59,4 +88,4 @@ def get_route_fly(pickup_lon, pickup_lat, air_lat_1, air_long_1, air_lat_2, air_
            'distance' :distance
            }
 
-    return out
+    return out'''

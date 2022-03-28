@@ -26,14 +26,14 @@ def showmap(request):
         if place_form.is_valid(): # Форма поиска мест
             name: str = place_form.cleaned_data["name"]
             geolocator = Nominatim(user_agent="my_request") # Обращаюсь к библиотечке для геокодирования, а как она работает не е*у (Инкапсуляция) ¯\_(ツ)_/¯
-            if not name.isalpha(): # Если в строке содержатся только цифры (координаты, без названия места) мы разбиваем строку через пробел и ищем место через геокодер
-                coord = name.split(" ")
-                name = geolocator.reverse(coord)
             location = geolocator.geocode(name) # Геокодирую по назвнию точки
             '''logger.info(f"{request.user} added location - {location.address} ")'''
-            coordinates = Places.objects.create(author=request.user, name=location.address, places_long=location.latitude,
-                                                places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
-            return redirect("home")
+            try:
+                coordinates = Places.objects.create(author=request.user, name=location.address, places_long=location.latitude,
+                                                    places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
+                return redirect("home")
+            except AttributeError:
+                return redirect("home")
 
         elif route_form.is_valid() and transport_form.is_valid(): # Форма прокладки маршрута
             name_from: str = route_form.cleaned_data["name_from"]
@@ -89,7 +89,6 @@ def showmap(request):
                 '''logger.info(
                     f"Database is empty, create defoult values - {coordinates.places_long} / {coordinates.places_lat} ")'''
                 return render(request, 'main/showmap.html', {"place_form": place_form, "coordinates": coordinates, "route_form": route_form, "transport_form": transport_form})
-
 
 
 '''def my_test(request):

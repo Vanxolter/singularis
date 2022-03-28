@@ -5,7 +5,7 @@
 {% block title %}Моя история{% endblock %}
 
 {% block content %}
-    <main class="history" style="height: content-box">
+    <main class="history" >
 
         <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel"  >
             <div class="carousel-inner">
@@ -37,18 +37,20 @@
                     </div>
 
                 </div>
-                <div class="carousel-item" style="background: #fdcbaf; height: 923px" data-bs-interval="10000">
+                <div class="carousel-item" style="background: #fdcbaf; min-height: 980px" data-bs-interval="10000">
 
                     <div class="routes container" style="padding-left: 100px; padding-right: 100px">
                         <h1>История моих маршрутов</h1>
                         <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
                             <tr>
+                                <th>num</th>
                                 <th>name_from</th>
                                 <th>name_to</th>
                                 <th></th>
                             </tr>
                             {% for route in routes %}
                                 <tr>
+                                    <td>{{ route.id }}</td>
                                     <td>{{ route.name_from }}</td>
                                     <td>{{ route.name_to }}</td>
                                     <td>
@@ -64,16 +66,16 @@
 
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="prev" style="bottom: 430px; top: 430px; width: 40px">
-                <span class="carousel-control-prev-icon" aria-hidden="true" ></span>
-                <span class="visually-hidden" >Предыдущий</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="next" style="bottom: 430px; top: 430px; width: 40px">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Следующий</span>
-            </button>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev" style="position: fixed; width: 40px">
+            <span class="carousel-control-prev-icon" aria-hidden="true" ></span>
+            <span class="visually-hidden" >Предыдущий</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="next" style="position: fixed; width: 40px">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+        </button>
         </div>
     </main>
 {% endblock %}

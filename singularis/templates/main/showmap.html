@@ -30,7 +30,7 @@
                     <button type="submit" class="save btn btn-primary">Найти</button>
                 </form>
             {% else %}
-                <p>Для введения координат вам требуется авторизироваться</p>
+                <p>Для использования сервиса вам требуется авторизироваться</p>
                 <a href="{% url "login" %}" class="btn btn-primary btn-lg active" role="button" disabled>Войти</a>
                 <br>
             {% endif %}
@@ -46,7 +46,7 @@
                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                                 attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
                             }).addTo(map);
-                            L.marker([{{coordinates.places_long}}, {{coordinates.places_lat}}]).addTo(map).bindPopup("My Marker");
+                            L.marker([{{coordinates.places_long}}, {{coordinates.places_lat}}]).addTo(map).bindPopup("{{coordinates.name}}");
                             var gcs = L.esri.Geocoding.geocodeService();
                             var count = 0;
                             map.on('click', (e) => {
@@ -89,12 +89,14 @@
         </div>
 
         <div class="col">
-            <form method="POST" class="post-form" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ route_form|crispy }}
-                {{ transport_form|crispy }}
-                <button type="submit" class="save btn btn-primary">Проложить</button>
-            </form><br>
+            {% if request.user.is_authenticated %}
+                <form method="POST" class="post-form" type="radio" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ route_form|crispy }}
+                    {{ transport_form|crispy }}
+                    <button type="submit" class="save btn btn-primary">Проложить</button>
+                </form><br>
+            {% endif %}
 
         </div>
     </div>
