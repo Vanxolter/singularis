@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from main.models import Places, RouteCoordinates
+from main.models import Places, RouteCoordinates, Countries
+from django.shortcuts import render
 import logging
+import folium
 
 logger = logging.getLogger(__name__)
 
@@ -25,3 +27,32 @@ def delete_route(request, route_id):
     logger.info(f"Route with id = {route}, successfully deleted!")
     route.delete()
     return redirect("history")
+
+
+# ВИЗУАЛИЗАЦИЯ ИСТОРИИ МАРШРУТОВ
+def jesus_eyes(request):
+    query = RouteCoordinates.objects.filter(author=request.user, transport='airplane').all()
+    logger.info(f"My kash {query}")
+    first = query.first()
+    figure = folium.Figure()
+    m = folium.Map(location=[(first.kash['start_point1'][0]), (first.kash['start_point1'][1])], zoom_start=10, )
+    m.add_to(figure)
+    num = 0
+    for i in query:
+        route = i.kash
+        logger.info(f"My route {i.name_to}")
+        num += 1
+
+        folium.PolyLine(route['route1'], weight=8, color='orange', opacity=0.6, tooltip='Машиной', ).add_to(m)
+        folium.Marker(location=route['start_point1'],icon=folium.Icon(icon='play', color='green')).add_to(m)
+        folium.Marker(location=route['end_point1'],icon=folium.Icon(icon="cloud")).add_to(m)
+
+        folium.PolyLine([route['end_point1'], route['start_point3']], weight=8, color='green', opacity=0.6,
+                        tooltip=f'{num} Маршрут', ).add_to(m)
+
+        folium.PolyLine(route['route3'], weight=8, color='orange', opacity=0.6, tooltip='Машиной', ).add_to(m)
+        folium.Marker(location=route['start_point3'],icon=folium.Icon(icon="cloud")).add_to(m)
+        folium.Marker(location=route['end_point3'],icon=folium.Icon(icon='stop', color='red')).add_to(m)
+    figure.render()
+    context={'map':figure}
+    return render(request,'main/showroute.html',context)

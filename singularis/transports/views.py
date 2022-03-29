@@ -57,8 +57,8 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     logger.info(f"СТРАНА - {country_1[-1]} - {country_code_1.code} ")
     try:
         airport_from = Airports.objects.filter(iso_country=country_code_1.code, type='large_airport').filter(
-            latitude_deg__lte=(float(lat1) + 2), longitude_deg__lte=(float(long1) + 2),
-            latitude_deg__gte=(float(lat1) - 2), longitude_deg__gte=(float(long1) - 2)).first()
+            latitude_deg__lte=(float(lat1) + 5), longitude_deg__lte=(float(long1) + 5),
+            latitude_deg__gte=(float(lat1) - 5), longitude_deg__gte=(float(long1) - 5)).first()
     except AttributeError:
         airport_from = Airports.objects.filter(iso_country=country_code_1.code, ).filter(
             latitude_deg__lte=(float(lat1) + 10), longitude_deg__lte=(float(long1) + 10),
@@ -74,8 +74,8 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     logger.info(f"СТРАНА - {country_2[-1]} - {country_code_2.code} ")
     try:
         airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='large_airport').filter(
-            latitude_deg__lte=(float(lat2)+2), longitude_deg__lte=(float(long2)+2),
-            latitude_deg__gte=(float(lat2)-2), longitude_deg__gte=(float(long2)-2)).first()
+            latitude_deg__lte=(float(lat2)+5), longitude_deg__lte=(float(long2)+5),
+            latitude_deg__gte=(float(lat2)-5), longitude_deg__gte=(float(long2)-5)).first()
     except AttributeError:
         airport_to = Airports.objects.filter(iso_country=country_code_2.code, ).filter(
             latitude_deg__lte=(float(lat2) + 10), longitude_deg__lte=(float(long2) + 10),
@@ -91,6 +91,7 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     long1, lat1, air_long_1, air_lat_1, air_long_2, air_lat_2, long2, lat2 = float(long1),float(lat1), float(air_long_1), float(air_lat_1), float(air_long_2), float(air_lat_2), float(long2), float(lat2)
     route = getroute.get_route_fly(long1, lat1, air_long_1, air_lat_1, air_long_2, air_lat_2, long2, lat2)
 
+    update = RouteCoordinates.objects.filter(author=request.user, id=coordinates.id).update(kash=route, transport='airplane')
     m = folium.Map(location=[(route['start_point1'][0]), (route['start_point1'][1])], zoom_start=10, )
 
     m.add_to(figure)

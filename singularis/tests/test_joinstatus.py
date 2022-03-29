@@ -32,6 +32,3 @@ class TestCreateUser:
         response = client.get("")
         assert response.status_code == 200
 
-        # Тест страницу с маршрутом
-        response = client.get("/53.87844040332883,27.369689941406254,53.934270043817094,27.675951429212574")
-        assert response.status_code == 200

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from history.views import my_history, delete_place, delete_route
+from history.views import my_history, delete_place, delete_route, jesus_eyes
 from main.views import showmap
 from transports.views import airplane, auto
 from users.views import authorization, logout_view, register
@@ -33,6 +33,7 @@ urlpatterns = [
     path("history/", my_history, name="history"),  # ИСТОРИЯ ПОИСКА
     path("delete/<int:place_id>/", delete_place, name="delete_place"),  # УДАЛЕНИЕ МЕСТА
     path("delete/<int:route_id>/", delete_route, name="delete_route"),  # УДАЛЕНИЕ МАРШРУТА
+    path("jesus_eyes/", jesus_eyes, name="jesus_eyes"),  # Визуализация истории
 
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', airplane, name='fly'), # САМОЛЕТ
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', auto, name='auto'),  # АВТО

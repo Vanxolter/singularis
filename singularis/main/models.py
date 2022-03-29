@@ -19,6 +19,8 @@ class RouteCoordinates(models.Model):
     name_to: str = models.CharField(max_length=400, verbose_name="Куда", null=True, blank=False)
     endlong: float = models.FloatField(verbose_name="Конечная Долгота", null=True, blank=True)
     endlat: float = models.FloatField(verbose_name="Конечная Широта", null=True, blank=True)
+    kash: dict = models.JSONField(verbose_name="Кэш для построения маршрута в истории", null=True, blank=True)
+    transport: str = models.CharField(max_length=40, verbose_name="Вид транспорта", null=True, blank=False)
 
 
 class Places(models.Model):
