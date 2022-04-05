@@ -1,3 +1,5 @@
+from django.db.models.functions.math import Sqrt, Abs
+from django.db.models import F
 from django.shortcuts import render
 import logging
 import folium
@@ -5,6 +7,8 @@ from geopy import Nominatim
 from transports.models import Airports
 from transports import getroute
 from main.models import RouteCoordinates, Countries
+
+from django.contrib.gis.db.models.functions import Distance
 
 logger = logging.getLogger(__name__)
 
@@ -56,13 +60,12 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     country_code_1 = Countries.objects.get(name=country_1[-1]) # Достаю из полного адреса название страны
     logger.info(f"СТРАНА - {country_1[-1]} - {country_code_1.code} ")
     try:
-        airport_from = Airports.objects.filter(iso_country=country_code_1.code, type='large_airport').filter(
-            latitude_deg__lte=(float(lat1) + 5), longitude_deg__lte=(float(long1) + 5),
-            latitude_deg__gte=(float(lat1) - 5), longitude_deg__gte=(float(long1) - 5)).first()
+        airport_from = Airports.objects.filter(iso_country=country_code_1.code, type='large_airport').annotate(
+            distance=Sqrt(Abs(F('longitude_deg') - long1) + Abs(F('latitude_deg') - lat1))).order_by('distance').first()
     except AttributeError:
-        airport_from = Airports.objects.filter(iso_country=country_code_1.code, ).filter(
-            latitude_deg__lte=(float(lat1) + 10), longitude_deg__lte=(float(long1) + 10),
-            latitude_deg__gte=(float(lat1) - 10), longitude_deg__gte=(float(long1) - 10)).first()
+        airport_from = Airports.objects.filter(iso_country=country_code_1.code, type='medium_airport').filter(
+            latitude_deg__lte=(lat1 + 7), longitude_deg__lte=(long1 + 7),
+            latitude_deg__gte=(lat1 - 7), longitude_deg__gte=(long1 - 7)).first()
     air_lat_1 = airport_from.latitude_deg # Широта первого аэропорта
     air_long_1 = airport_from.longitude_deg # Долгота первого аэропорта
 
@@ -73,13 +76,13 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     country_code_2 = Countries.objects.get(name=country_2[-1]) # Достаю из полного адреса название страны
     logger.info(f"СТРАНА - {country_2[-1]} - {country_code_2.code} ")
     try:
-        airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='large_airport').filter(
-            latitude_deg__lte=(float(lat2)+5), longitude_deg__lte=(float(long2)+5),
-            latitude_deg__gte=(float(lat2)-5), longitude_deg__gte=(float(long2)-5)).first()
+        airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='large_airport').annotate(
+            distance=Sqrt(Abs(F('longitude_deg') - long2) + Abs(F('latitude_deg') - lat2))).order_by('distance').first()
+        logger.info(f"Код страны прибытия - {country_code_2.code}, Название аэропорта - {airport_to.name} ")
     except AttributeError:
-        airport_to = Airports.objects.filter(iso_country=country_code_2.code, ).filter(
-            latitude_deg__lte=(float(lat2) + 10), longitude_deg__lte=(float(long2) + 10),
-            latitude_deg__gte=(float(lat2) - 10), longitude_deg__gte=(float(long2) - 10)).first()
+        airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='medium_airport').filter(
+            latitude_deg__lte=(float(lat2) + 7), longitude_deg__lte=(float(long2) + 7),
+            latitude_deg__gte=(float(lat2) - 7), longitude_deg__gte=(float(long2) - 7)).first()
     air_lat_2 = airport_to.latitude_deg # Широта второго аэропорта
     air_long_2 = airport_to.longitude_deg # Долгота второго аэропорта
 
