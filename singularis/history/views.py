@@ -35,9 +35,12 @@ def jesus_eyes(request):
     logger.info(f"My kash {query}")
     first = query.first()
     figure = folium.Figure()
-    m = folium.Map(location=[(first.kash['start_point1'][0]), (first.kash['start_point1'][1])], zoom_start=10, )
-    m.add_to(figure)
-    num = 0
+    try:
+        m = folium.Map(location=[(first.kash['start_point1'][0]), (first.kash['start_point1'][1])], zoom_start=10, )
+        m.add_to(figure)
+        num = 0
+    except AttributeError:
+        return redirect("history")
     for i in query:
         route = i.kash
         logger.info(f"My route {i.name_to}")

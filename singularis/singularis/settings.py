@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'singularis.wsgi.application'
 
 DATABASES = {
    "default": {
-       "ENGINE": "django.db.backends.postgresql",
+       'ENGINE': 'django.contrib.gis.db.backends.postgis',
        "NAME": "secret",
        "USER": "secret",
        "PASSWORD": "secret",

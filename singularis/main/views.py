@@ -48,7 +48,6 @@ def showmap(request):
             fly: bool = transport_form.cleaned_data["fly"]
 
             my_choise: dict= {"feet": feet, "auto": automable, "train": train, "fly": fly}
-            logger.info(f"check my choise - {my_choise}, {type(my_choise)} ")
 
             if my_choise["feet"]:
                 return walking()
