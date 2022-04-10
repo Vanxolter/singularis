@@ -13,11 +13,3 @@ location = geolocator.reverse(loc)
 # printing address and coordinates
 print(location.address)
 print((location.latitude, location.longitude))'''
-
-from django.contrib.gis.db.models.functions import Distance
-
-
-
-pnt = AustraliaCity.objects.get(name='Hobart').point
-for city in AustraliaCity.objects.annotate(distance=Distance('point', pnt)):
-    print(city.name, city.distance)

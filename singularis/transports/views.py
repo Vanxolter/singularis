@@ -7,6 +7,7 @@ from geopy import Nominatim
 from transports.models import Airports
 from transports import getroute
 from main.models import RouteCoordinates, Countries
+from main.models import WorldBorder
 
 from django.contrib.gis.db.models.functions import Distance
 
