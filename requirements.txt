@@ -20,3 +20,5 @@ pytest-django>=4.5.2
 ipython>=8.0.1
 flake8>=4.0.1
 black>=21.12b0
+
+amadeus==5.3.1
