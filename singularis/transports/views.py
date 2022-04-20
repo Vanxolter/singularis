@@ -115,7 +115,8 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     except KeyError:
         return redirect("home")
 
-    #info = [route['steps1'], route['steps3']]
+    info = [route['steps1'], route['steps3']]
+    logger.info(f"INFOOOOO {info} ")
 
     m.add_to(figure)
     folium.PolyLine(route['route1'], weight=8, color='orange', opacity=0.6, tooltip=route['distance1'], ).add_to(m)
@@ -128,5 +129,5 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     folium.Marker(location=route['start_point3'],icon=folium.Icon(icon="cloud")).add_to(m)
     folium.Marker(location=route['end_point3'],icon=folium.Icon(icon='stop', color='red')).add_to(m)
     figure.render()
-    context={'map':figure}
+    context={'map':figure, 'info': info}
     return render(request,'main/showroute.html',context)

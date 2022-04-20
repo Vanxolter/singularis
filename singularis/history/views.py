@@ -3,6 +3,7 @@ from main.models import Places, RouteCoordinates, Countries
 from django.shortcuts import render
 import logging
 import folium
+from urllib.error import HTTPError
 
 logger = logging.getLogger(__name__)
 
@@ -15,17 +16,14 @@ def my_history(request):
 
 # УДАЛЕНИЕ МЕСТА
 def delete_place(request, place_id):
-    place = get_object_or_404(Places, id=place_id)
-    logger.info(f"Place with id = {place}, successfully deleted!")
-    place.delete()
-    return redirect("history")
+    logger.info(f"My ident {place_id}")
+    try:
+        place = get_object_or_404(Places, id=place_id)
+        place.delete()
+    except:
+        route = get_object_or_404(RouteCoordinates, id=place_id)
+        route.delete()
 
-
-# УДАЛЕНИЕ МАРШРУТА
-def delete_route(request, route_id):
-    route = get_object_or_404(RouteCoordinates, id=route_id)
-    logger.info(f"Route with id = {route}, successfully deleted!")
-    route.delete()
     return redirect("history")
 
 
