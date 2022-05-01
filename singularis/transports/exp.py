@@ -14,26 +14,19 @@ location = geolocator.reverse(loc)
 print(location.address)
 print((location.latitude, location.longitude))'''
 
-import my_keys
-from my_keys import *
-from amadeus import Client, ResponseError
-from amadeus import Location
+import requests
 
-amadeus = Client(
-    client_id=my_keys.AMADEUS_KEY,
-    client_secret=my_keys.AMADEUS_SECRET_KEY
-)
+apiKey = input("API Key: ")
+apiUrl = "https://aeroapi.flightaware.com/aeroapi/"
 
-try:
-    '''
-    What's the airline name for the IATA code BA?
-    '''
-    response = amadeus.shopping.flight_offers_search.get(
-    originLocationCode='MAD',
-    destinationLocationCode='BOS',
-    departureDate='2019-11-01',
-    adults='1'
-)
-    print(response.data)
-except ResponseError as error:
-    raise error
+airport = 'KSFO'
+payload = {'max_pages': 2}
+auth_header = {'x-apikey':apiKey}
+
+response = requests.get(apiUrl + f"airports/{airport}/flights",
+    params=payload, headers=auth_header)
+
+if response.status_code == 200:
+    print(response.json())
+else:
+    print("Error executing request")
