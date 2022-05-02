@@ -29,7 +29,7 @@ def register(request):
             user.save()
             logger.info(f"Пользователь {form.cleaned_data} зарегестрировался")
             login(request, user)
-            return redirect("home")
+            return redirect("mainsearch")
     else:
         form = RegisterForm()
     return render(request, "users/register.html", {"form": form})
@@ -46,7 +46,7 @@ def authorization(request):
                 if user.is_active:
                     login(request, user)
                     logger.info(f"Пользователь {form.cleaned_data} авторизировался")
-                    return redirect("home")
+                    return redirect("mainsearch")
             else:
                 return HttpResponse("Аккаунта не существует")
     elif "_reg" in request.POST:

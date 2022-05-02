@@ -37,7 +37,7 @@
         </div>
 
         <div class="col-8" style="padding-left: 30px; padding-right: 30px">
-            <div class="container" style="background: rgba(229, 154, 114, 0.7); padding: 10px">
+            <div class="container" style="background: rgba(229, 154, 114, 0.7); padding: 10px; min-height: 800px">
                 <div id="map">
                     <div class=" map container ">
                         <script>
@@ -68,32 +68,37 @@
                     </div>
                 </div>
 
-                <div class="pos-f-t">
-                    <div class="collapse" id="navbarToggleExternalContent">
-                        <div class="bg-dark p-4">
-                            <h4 class="text-white">Collapsed content</h4>
-                            <span class="text-muted">Toggleable via the navbar brand.</span>
+                <div class="accordion " id="accordionFlushExample" >
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button "
+                                    style="background: rgba(229, 154, 114, 0.7); color: rgba(0,0,0,.55)"
+                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                    aria-controls="flush-collapseOne">
+                               Информация
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                             aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body" style="background: rgba(227,183,159,0.7)">
+                                Заполнитель
+                            </div>
                         </div>
                     </div>
-                    <nav class="navbar navbar-dark bg-red">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarToggleExternalContent"
-                                aria-controls="navbarToggleExternalContent" aria-expanded="false"
-                                aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </nav>
                 </div>
-                <p>Ганица блока</p>
             </div>
         </div>
 
-        <div class="col">
+        <div class="col" style="padding: 15px">
             {% if request.user.is_authenticated %}
                 <form method="POST" class="post-form" type="radio" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ route_form|crispy }}
-                    {{ transport_form|crispy }}
+                    <br>
+                    <div class="container" style="padding-left: 20px">
+                        <h6>Выберите тип транспорта ниже</h6>
+                        {{ transport_form|crispy }}
+                    </div>
                     <button type="submit" class="save btn btn-primary">Проложить</button>
                 </form><br>
             {% endif %}

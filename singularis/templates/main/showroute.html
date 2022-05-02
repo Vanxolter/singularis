@@ -3,12 +3,14 @@
 
 {% block content %}
 <head>
-
     <style>
         .folium-map {
             min-height: 650px;
         }
     </style>
+        <link type="text/css" rel="stylesheet" href="/static/base.css" media="all">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <br>
@@ -19,8 +21,8 @@
         <div class="container" style="background: rgba(229, 154, 114, 0.7); padding: 10px">
             <div class=" folium-map ">
                 {% if map %}
-                    {{ map.html.render|safe }}
                     {{ map.header.render|safe }}
+                    {{ map.html.render|safe }}
                     <script>
                         {{map.script.render|safe}}
                     </script>
@@ -49,5 +51,7 @@
     <div class="col-2">
     </div>
 </div>
+
+
 </body>
 {% endblock %}

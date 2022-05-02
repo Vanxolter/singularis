@@ -41,16 +41,19 @@
 
 </head>
 <body>
-    <div class="full" style="min-height: 980px">
+    <div class="full" style="min-height: 945px">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand singularis" href="{% url "home" %}">Singularis</a>
+            <a class="navbar-brand singularis" href="{% url "main" %}">Singularis</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
                     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url "mainsearch" %}>Карта</a>
+                    </li>
                     {% if request.user.is_anonymous %}
                         <li class="nav-item">
                             <a class="nav-link" href={% url "register" %}>Регистрация</a>
@@ -60,7 +63,7 @@
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href={% url "history" %}>История</a>
+                            <a class="nav-link" href={% url "history" %}>История поиска</a>
                         </li>
                     {% endif %}
                 </ul>

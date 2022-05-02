@@ -63,10 +63,9 @@ def jesus_eyes(request):
 def one_route(request, route_id):
     query = RouteCoordinates.objects.filter(author=request.user, id = route_id, transport='airplane').first() # Достаю Определенный маршрут с базы по ID
     logger.info(f"My kash {query}")
-    first = query
     figure = folium.Figure()
     try:
-        m = folium.Map(location=[(first.kash['start_point1'][0]), (first.kash['start_point1'][1])], zoom_start=10, )
+        m = folium.Map(location=[(query.kash['start_point1'][0]), (query.kash['start_point1'][1])], zoom_start=10, )
         m.add_to(figure)
         num = 0
     except AttributeError:
@@ -83,9 +82,9 @@ def one_route(request, route_id):
     folium.PolyLine([route['end_point1'], route['start_point3']], weight=8, color='green', opacity=0.6,
                     tooltip=f'{num} Маршрут', ).add_to(m)
 
-    folium.PolyLine(route['route3'], weight=8, color='orange', opacity=0.6, tooltip='Машиной', ).add_to(m)
+    folium.PolyLine(route['route3'], weight=8, color='orange', opacity=0.6, tooltip='Машиной',).add_to(m)
     folium.Marker(location=route['start_point3'],icon=folium.Icon(icon="cloud")).add_to(m)
     folium.Marker(location=route['end_point3'],icon=folium.Icon(icon='stop', color='red')).add_to(m)
     figure.render()
-    context={'map':figure}
-    return render(request,'main/showroute.html',context)
+    context={'map': figure}
+    return render(request,'main/showroute.html', context)

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from history.views import my_history, delete_place, jesus_eyes, one_route
-from main.views import showmap
+from main.views import showmap, main
 from transports.views import airplane, auto
 from users.views import authorization, logout_view, register
 
@@ -37,5 +37,6 @@ urlpatterns = [
 
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', airplane, name='fly'), # САМОЛЕТ
     path('<str:lat1>,<str:long1>,<str:lat2>,<str:long2>', auto, name='auto'),  # АВТО
-    path("", showmap, name='home'), # ДОМАШНЯЯ СТРАНИЦА
+    path("showmap/", showmap, name='mainsearch'), # ДОМАШНЯЯ СТРАНИЦА
+    path("", main, name='main'), # ДОМАШНЯЯ СТРАНИЦА
 ]

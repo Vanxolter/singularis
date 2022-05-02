@@ -25,7 +25,7 @@ class RouteCoordinates(models.Model):
 
 class Places(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="places")
-    name = models.CharField(max_length=400, verbose_name="Поиск", null=True, blank=False)
+    name = models.CharField(max_length=400, help_text="Что вы ищете?", verbose_name="Поиск", null=True, blank=False)
     places_long: float = models.FloatField(verbose_name="Долгота места", null=True, blank=True)
     places_lat: float = models.FloatField(verbose_name="Широта места", null=True, blank=True)
 
