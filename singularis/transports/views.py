@@ -105,9 +105,8 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
             distance=Sqrt(Abs(F('longitude_deg') - long2) + Abs(F('latitude_deg') - lat2))).order_by('distance').first()
         logger.info(f"1-Й ТИП - {type(airport_to.longitude_deg)}, {type(airport_to.latitude_deg)}")
     except KeyError:
-        airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='medium_airport').filter(
-            latitude_deg__lte=(float(lat2) + 7), longitude_deg__lte=(float(long2) + 7),
-            latitude_deg__gte=(float(lat2) - 7), longitude_deg__gte=(float(long2) - 7)).first()
+        airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='medium_airport').annotate(
+            distance=Sqrt(Abs(F('longitude_deg') - long1) + Abs(F('latitude_deg') - lat1))).order_by('distance').first()
         logger.info(f"ИЩУ ПО СРЕДНИМ АЭРОПОРТАМ")
     air_lat_2 = airport_to.latitude_deg # Широта второго аэропорта
     air_long_2 = airport_to.longitude_deg # Долгота второго аэропорта

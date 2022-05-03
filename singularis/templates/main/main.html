@@ -77,7 +77,18 @@
                         <h1><small>Getting off the ground is much easier with</small></br>
 						<strong>Singularis</strong></h1>
                         <p>With the help of their homemade machine, Wilbur and Orville Wright undoubtedly proved that man can fly, and if the world didn't know about it yet, then they did.</p>
-                        <p><a class="btn btn-primary btn-lg" role="button" href={% url "register" %}>Регистрация</a> <a target="_blank" class="btn btn-lg btn-danger"  role="button" href={% url "login" %}>Войти</a></p>
+                        {% if request.user.is_anonymous %}
+                        <p>
+                            <a class="btn btn-primary btn-lg" role="button" href={% url "register" %}>Регистрация</a>
+                            <a target="_blank" class="btn btn-lg btn-danger" role="button"
+                               href={% url "login" %}>Войти</a>
+                        </p>
+                        {% else %}
+                            <p>
+                                <a class="btn btn-primary btn-lg" role="button" href={% url "mainsearch" %}>Попробовать
+                                    наш сервис</a>
+                            </p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -97,8 +108,8 @@
                     </div>
                     <div class="col-md-4 text-center wow fadeInUp" data-wow-delay="500ms">
                         <span class="typcn typcn-bookmark x3"></span>
-                        <h4>Cras Sollicitudin</h4>
-                        <p>Etiam porta sem malesuada magna mollis euismod. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Maecenas faucibus mollis interdum.</p>
+                        <h4>История вашего поиска</h4>
+                        <p>Возможность сохранять историю поиска ваших маршрутов, мест.</p>
                     </div>
                 </div>
             </div>
@@ -244,8 +255,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8">
-                            <h3>Maecenas sed diam eget risus varius<br> blandit sit amet non magna.</h3>
-                            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+                            <h3>Обратная связь<br> ...</h3>
+                            <p>В случае нахождения багов в нашем сервисе просим сообщить через данную форму</p>
                             <div class="row">
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" placeholder="Your Email Here...">
@@ -263,10 +274,10 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h3>Contacts</h3>
-                        <p>© 2022 Singularis. Developed by <a target="_blank" href="https://github.com/Vanxolter">Maksim Laurou</a></p>
+                        <p>© {{ date.year }} Singularis. Developed by <a target="_blank" href="https://github.com/Vanxolter">Maksim Laurou</a></p>
                     </div>
                     <div class="col-md-4">
-                        <p class="text-right social"><i class="typcn typcn-social-facebook-circular"></i><i class="typcn typcn-social-twitter-circular"></i><i class="typcn typcn-social-tumbler-circular"></i><i class="typcn typcn-social-github-circular"></i><i class="typcn typcn-social-dribbble-circular"></i></p>
+                        <p class="text-right social"><a href="https://github.com/Vanxolter"><i class="typcn typcn-social-github-circular"></i></a><i class="typcn typcn-social-twitter-circular"></i><i class="typcn typcn-social-tumbler-circular"></i><i class="typcn typcn-social-github-circular"></i><i class="typcn typcn-social-dribbble-circular"></i></p>
                     </div>
                 </div>
             </div>
@@ -288,14 +299,3 @@
         <script src="../../static/assets/js/odometer.js"></script>
     </body>
 </html>
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-34344036-1', 'auto');
-  ga('send', 'pageview');
-
-</script>

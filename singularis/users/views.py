@@ -8,9 +8,7 @@ from django.views.generic import FormView
 from singularis import settings
 from users.forms import RegisterForm, Authorization
 from django.contrib.auth.models import User
-from singularis.mixins import (
-    reCAPTCHAValidation,
-)
+
 
 logger = logging.getLogger(__name__)
 

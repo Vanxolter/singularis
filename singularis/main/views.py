@@ -1,3 +1,5 @@
+from datetime import datetime, date
+
 from django.shortcuts import render, redirect
 from main.models import RouteCoordinates, Places
 from geopy.geocoders import Nominatim
@@ -91,4 +93,5 @@ def showmap(request):
 
 
 def main(request):
-    return render(request, 'main/main.html')
+    now = datetime.now()
+    return render(request, 'main/main.html', {"date": now})
