@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_2.html" %}
 {% load crispy_forms_filters %}
 
 {% block content %}
@@ -17,8 +17,8 @@
 <div class="row align-items-start" style="--bs-gutter-x: 0rem; margin-right: 0">
     <div class="col-2">
     </div>
-    <div class="col-8" style="padding-left: 30px; padding-right: 30px">
-        <div class="container" style="background: rgba(229, 154, 114, 0.7); padding: 10px">
+    <div class="col-md-8 text-center wow fadeInUp" data-wow-delay="300ms" style="padding-left: 30px; padding-right: 30px; max-width: 1100px">
+
             <div class=" folium-map ">
                 {% if map %}
                     {{ map.header.render|safe }}
@@ -46,7 +46,7 @@
                         </nav>
                     </div>
             </div>
-        </div>
+
     </div>
     <div class="col-2">
     </div>

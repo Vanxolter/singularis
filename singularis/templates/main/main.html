@@ -39,7 +39,7 @@
       <nav class="pushy pushy-left">
         <ul class="list-unstyled">
             <li><p>Здравствуй {{ user.first_name }}</p></li>
-            <li><a href="#home">Домашняя</a></li>
+            <li><a href={% url "main" %}>Домашняя</a></li>
             {% if request.user.is_anonymous %}
                 <li><a href={% url "register" %}>Регистрация</a></li>
                 <li><a href={% url "login" %}>Войти</a></li>
@@ -65,7 +65,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3 col-xs-10">
-                            <a href="#" class="thumbnail logo">
+                            <a class="thumbnail logo" href={% url "main" %}>
                                 <img src="../../static/images/your_logo.png" alt="" class="img-responsive">
                             </a>
                         </div>
