@@ -68,12 +68,12 @@
                 <li><a href={% url "login" %}>Войти</a></li>
             {% else %}
                 <li><a href={% url "mainsearch" %}>Карта</a></li>
-                <li><a href="#news">Популярное</a></li>
+                <li><a href={% url "news" %}>Новости</a></li>
                 <li><a href={% url "history" %}>Моя история</a></li>
-                <li><a href="#photos">Инфографика</a></li>
+                <li><a href={% url "analysis" %}>Инфографика</a></li>
                 <li><a href={% url 'logout' %}>Выйти</a></li>
                 {% if request.user.email == "Vansheltor@gmail.com" %}
-                    <li><a class="bg-danger" href="admin/">Админка</a></li>
+                    <li><a class="bg-danger"  href="admin/">Админка</a></li>
                 {% endif %}
             {% endif %}
         </ul>
@@ -89,7 +89,7 @@
                     <div class="row">
                         <div class="col-md-3 col-xs-10">
                             <a class="thumbnail logo" href={% url "main" %}>
-                                <img src="../../static/images/your_logo.png" alt="" class="img-responsive">
+                                <img src="../../static/images/Singularis.png" alt="" class="img-responsive">
                             </a>
                         </div>
                         <div class="col-md-1 col-md-offset-8 col-xs-2 text-center">
@@ -129,7 +129,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h3>Contacts</h3>
-                        <p>© {{ date.year }} Singularis. Developed by <a target="_blank" href="https://github.com/Vanxolter">Maksim Laurou</a></p>
+                        <p>© 2022 Singularis. Developed by <a target="_blank" href="https://github.com/Vanxolter">Maksim Laurou</a></p>
                     </div>
                     <div class="col-md-4">
                         <p class="text-right social"><a href="https://github.com/Vanxolter"><i class="typcn typcn-social-github-circular"></i></a><i class="typcn typcn-social-twitter-circular"></i><i class="typcn typcn-social-tumbler-circular"></i><i class="typcn typcn-social-github-circular"></i><i class="typcn typcn-social-dribbble-circular"></i></p>

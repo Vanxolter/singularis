@@ -75,7 +75,7 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     geolocator = Nominatim(user_agent="my_request")
     logger.info(f"ВХОДНЫЕ КООРДИНАТЫ - {lat1} - {long1} - {lat2} - {long2}")
 
-    # Ищу ближайший аропорт от нашей точки отправки
+    # 1 СТАДИЯ Ищу ближайший аропорт от нашей точки отправки
     location1 = geolocator.reverse(name_from, language='en')
     country_1 = location1.address.split(", ")
     country_code_1 = Countries.objects.get(name=country_1[-1]) # Достаю из полного адреса название страны
@@ -96,6 +96,7 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
 
     logger.info(f"КОНТРОЛЬНАЯ ТОЧКА ")
 
+    # 2 СТАДИЯ Ищу 2-рой аропорт близ точки прибытия
     location2 = geolocator.reverse(name_to, language='en')
     country_2 = location2.address.split(", ")
     country_code_2 = Countries.objects.get(name=country_2[-1]) # Достаю из полного адреса название страны

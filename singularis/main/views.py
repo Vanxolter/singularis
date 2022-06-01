@@ -1,9 +1,10 @@
 from datetime import datetime, date
 
 from django.shortcuts import render, redirect
-from main.models import RouteCoordinates, Places
+from main.models import RouteCoordinates, Places, News
 from geopy.geocoders import Nominatim
 import logging
+from django.core.paginator import Paginator
 
 # Forms
 from main.forms import SearchPlacesForm, SearchRouteForm
@@ -93,5 +94,22 @@ def showmap(request):
 
 
 def main(request):
-    now = datetime.now()
-    return render(request, 'main/main.html', {"date": now})
+    return render(request, 'main/main.html')
+
+
+def analysis(request):
+    return render(request, 'main/analysis.html')
+
+
+def news(request):
+
+    news = News.objects.all().order_by("id")
+
+    paginator = Paginator(news, 30)
+    page_number = request.GET.get("page")
+    news = paginator.get_page(page_number)
+
+    return render(
+        request, 'news/news.html',
+        {"news": news},
+    )

@@ -44,7 +44,7 @@ def authorization(request):
                 if user.is_active:
                     login(request, user)
                     logger.info(f"Пользователь {form.cleaned_data} авторизировался")
-                    return redirect("mainsearch")
+                    return redirect("main")
             else:
                 return HttpResponse("Аккаунта не существует")
     elif "_reg" in request.POST:

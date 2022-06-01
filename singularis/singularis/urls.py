@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 from history.views import my_history, delete_place, jesus_eyes, one_route
-from main.views import showmap, main
+from main.views import showmap, main, analysis, news
+from singularis import settings
 from transports.views import airplane, auto
 from users.views import authorization, logout_view, register
 
@@ -27,10 +28,11 @@ urlpatterns = [
 
     path("login/", authorization, name="login"),  # АВТОРИЗАЦИЯ
     path("register/", register, name="register"),  # РЕГИСТРАЦИЯ
-    #path("register/", SignUpView.as_view(), name="register"),  # РЕГИСТРАЦИЯ через класс
     path("logouthtml/", logout_view, name="logout"),  # ВЫХОД ИЗ ПРОФИЛЯ
 
     path("history/", my_history, name="history"),  # ИСТОРИЯ ПОИСКА
+    path("analysis/", analysis, name="analysis"),  # АНАЛИТИКА
+    path("news/", news, name="news"),  # НОВОСТИ
     path("delete/<int:place_id>/", delete_place, name="delete_place"),  # УДАЛЕНИЕ МЕСТА
     path("jesus_eyes/", jesus_eyes, name="jesus_eyes"),  # Визуализация истории
     path("one_route/<int:route_id>/", one_route, name="one_route"),  # Визуализация определенного маршрутв
@@ -40,3 +42,7 @@ urlpatterns = [
     path("showmap/", showmap, name='mainsearch'), # ДОМАШНЯЯ СТРАНИЦА
     path("", main, name='main'), # ДОМАШНЯЯ СТРАНИЦА
 ]
+
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns

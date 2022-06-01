@@ -34,7 +34,7 @@
                 <br>
             {% endif %}
         </div>
-        <div class="col-md-8 text-center wow fadeInUp" data-wow-delay="300ms" style="padding-left: 30px; padding-right: 30px; max-width: 1100px">
+        <div class="col-md-8 text-center wow fadeInUp border border-1" data-wow-delay="300ms" style="padding-left: 30px; padding-right: 30px; max-width: 1100px">
 
                 <div id="map">
                     <div class=" map container ">
@@ -94,8 +94,9 @@
                     <br>
 
                     <h6>Выберите тип транспорта ниже</h6>
-                    {{ transport_form|crispy }}
-
+                    <div>
+                        {{ transport_form|crispy }}
+                    </div>
                     <button type="submit" class="save btn btn-primary">Проложить</button>
                 </form><br>
             {% endif %}

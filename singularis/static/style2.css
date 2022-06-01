@@ -48,7 +48,7 @@ span.x4:before, i.x4:before
 
 header .container-fluid
 {
-    background-image: url('images/jumbo.jpg');
+    background-image: url('images/jumbo3.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
@@ -67,7 +67,7 @@ header .container-fluid-base
 .hamburger
 {
     font-size: 2.3em;
-    color: #000;
+    color: #554450;
 }
 
 .hamburger:hover
@@ -97,7 +97,7 @@ header .container-fluid-base
 .jumbotron h6,
 .jumbotron small
 {
-    color: #FFFFFF;
+    color: #FFF8E7;
 }
 
 .jumbotron p

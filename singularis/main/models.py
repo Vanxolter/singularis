@@ -59,3 +59,12 @@ class WorldBorder(models.Model):
     # Returns the string representation of the model.
     def __str__(self):
         return self.name
+
+
+class News(models.Model):
+    title = models.CharField(max_length=400, verbose_name="Заголовок", null=True, blank=False)
+    slug = models.SlugField(unique=True)
+    link: str = models.URLField(verbose_name="Ссылка на оригинал", null=True, blank=True)
+    text = models.TextField(verbose_name="Текст статьи")
+    image = models.ImageField(verbose_name="Изображение", null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)

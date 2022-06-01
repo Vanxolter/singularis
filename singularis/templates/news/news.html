@@ -1,0 +1,16 @@
+{% extends "base_2.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %}Новости{% endblock %}
+
+{% block content %}
+    <div class="col-9">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-4">
+                    {% include "news/one_page.html" %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
