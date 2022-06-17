@@ -88,9 +88,9 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
         airport_from = Airports.objects.filter(iso_country=country_code_1.code, type='medium_airport').annotate(
             distance=Sqrt(Abs(F('longitude_deg') - long1) + Abs(F('latitude_deg') - lat1))).order_by('distance').first()
         logger.info(f"ИЩУ ПО СРЕДНИМ АЭРОПОРТАМ")
+
     air_lat_1 = airport_from.latitude_deg # Широта первого аэропорта
     air_long_1 = airport_from.longitude_deg # Долгота первого аэропорта
-
     airportz_1 = geolocator.reverse([air_lat_1, air_long_1], language='ru')
     airport_1 = airportz_1.address.split(", ")
 
@@ -105,34 +105,66 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
         airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='large_airport').annotate(
             distance=Sqrt(Abs(F('longitude_deg') - long2) + Abs(F('latitude_deg') - lat2))).order_by('distance').first()
         logger.info(f"1-Й ТИП - {type(airport_to.longitude_deg)}, {type(airport_to.latitude_deg)}")
-    except KeyError:
-        airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='medium_airport').annotate(
-            distance=Sqrt(Abs(F('longitude_deg') - long1) + Abs(F('latitude_deg') - lat1))).order_by('distance').first()
-        logger.info(f"ИЩУ ПО СРЕДНИМ АЭРОПОРТАМ")
-    air_lat_2 = airport_to.latitude_deg # Широта второго аэропорта
-    air_long_2 = airport_to.longitude_deg # Долгота второго аэропорта
 
-    airportz_2 = geolocator.reverse([air_lat_2, air_long_2], language='ru')
-    airport_2 = airportz_2.address.split(", ")
+        air_lat_2 = airport_to.latitude_deg  # Широта второго аэропорта
+        air_long_2 = airport_to.longitude_deg  # Долгота второго аэропорта
+        airportz_2 = geolocator.reverse([air_lat_2, air_long_2], language='ru')
+        airport_2 = airportz_2.address.split(", ")
 
-    #IATA
-    iata = f"https://www.travelpayouts.com/widgets_suggest_params?q=Из%20{airport_1[-3]}%20в%20{airport_2[-3]}"
-    logger.info(f"КОНТРОЛЬНАЯ {iata} ")
+        # IATA
+        iata = f"https://www.travelpayouts.com/widgets_suggest_params?q=Из%20{airport_1[-3]}%20в%20{airport_2[-3]}"
+        logger.info(f"КОНТРОЛЬНАЯ {iata} ")
 
-    coordinates = RouteCoordinates.objects.create(author=request.user, name_from=location1.address, name_to=location2.address,
-                                                  startlong=lat1, startlat=long1, endlong=lat2, endlat=long2)
-    logger.info(f"{request.user} search route with coordinates - {coordinates} ")
+        coordinates = RouteCoordinates.objects.create(author=request.user, name_from=location1.address,
+                                                      name_to=location2.address,
+                                                      startlong=lat1, startlat=long1, endlong=lat2, endlat=long2)
+        logger.info(f"{request.user} search route with coordinates - {coordinates} ")
 
-    figure = folium.Figure()
-    long1, lat1, air_long_1, air_lat_1, air_long_2, air_lat_2, long2, lat2 = float(long1),float(lat1), float(air_long_1), float(air_lat_1), float(air_long_2), float(air_lat_2), float(long2), float(lat2)
-    route = getroute.get_route_fly(long1, lat1, air_long_1, air_lat_1, air_long_2, air_lat_2, long2, lat2)
+        figure = folium.Figure()
+        long1, lat1, air_long_1, air_lat_1, air_long_2, air_lat_2, long2, lat2 = float(long1), float(lat1), float(
+            air_long_1), float(air_lat_1), float(air_long_2), float(air_lat_2), float(long2), float(lat2)
+        route = getroute.get_route_fly(long1, lat1, air_long_1, air_lat_1, air_long_2, air_lat_2, long2, lat2)
 
-    # ВНОШУ НАШ МАРШРУТ В ВИДЕ JSON-файла в базу для отображения истории
-    update = RouteCoordinates.objects.filter(author=request.user, id=coordinates.id).update(kash=route, transport='airplane')
-    try:
+        # ВНОШУ НАШ МАРШРУТ В ВИДЕ JSON-файла в базу для отображения истории
+        update = RouteCoordinates.objects.filter(author=request.user, id=coordinates.id).update(kash=route,
+                                                                                                transport='airplane')
+
         m = folium.Map(location=[(route['start_point1'][0]), (route['start_point1'][1])], zoom_start=10, )
     except KeyError:
-        return redirect("mainsearch")
+        airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='medium_airport').annotate(
+            distance=Sqrt(Abs(F('longitude_deg') - long2) + Abs(F('latitude_deg') - lat2))).order_by('distance').first()
+        logger.info(f"1-Й ТИ111111111111111111П - {type(airport_to)}")
+
+        air_lat_2 = airport_to.latitude_deg  # Широта второго аэропорта
+        air_long_2 = airport_to.longitude_deg  # Долгота второго аэропорта
+        airportz_2 = geolocator.reverse([air_lat_2, air_long_2], language='ru')
+        airport_2 = airportz_2.address.split(", ")
+
+        # IATA
+        iata = f"https://www.travelpayouts.com/widgets_suggest_params?q=Из%20{airport_1[-3]}%20в%20{airport_2[-3]}"
+        logger.info(f"КОНТРОЛЬНАЯ {iata} ")
+
+        coordinates = RouteCoordinates.objects.create(author=request.user, name_from=location1.address,
+                                                      name_to=location2.address,
+                                                      startlong=lat1, startlat=long1, endlong=lat2, endlat=long2)
+        logger.info(f"{request.user} search route with coordinates - {coordinates} ")
+
+        figure = folium.Figure()
+        long1, lat1, air_long_1, air_lat_1, air_long_2, air_lat_2, long2, lat2 = float(long1), float(lat1), float(
+            air_long_1), float(air_lat_1), float(air_long_2), float(air_lat_2), float(long2), float(lat2)
+        route = getroute.get_route_fly(long1, lat1, air_long_1, air_lat_1, air_long_2, air_lat_2, long2, lat2)
+
+        # ВНОШУ НАШ МАРШРУТ В ВИДЕ JSON-файла в базу для отображения истории
+        update = RouteCoordinates.objects.filter(author=request.user, id=coordinates.id).update(kash=route,
+                                                                                                transport='airplane')
+
+        m = folium.Map(location=[(route['start_point1'][0]), (route['start_point1'][1])], zoom_start=10, )
+
+    '''def key_error(country_code_2):
+        airport_to = Airports.objects.filter(iso_country=country_code_2.code, type='medium_airport').annotate(
+            distance=Sqrt(Abs(F('longitude_deg') - long1) + Abs(F('latitude_deg') - lat1))).order_by(
+            'distance').first()
+        return airport_to'''
 
     info = [route['steps1'], route['steps3']]
     logger.info(f"INFOOOOO {info} ")

@@ -1,4 +1,4 @@
-Django>=4.0.1
+Django>=4.0.5
 psycopg2-binary==2.9.3
 pillow==9.0.0
 crispy-bootstrap5==0.6

@@ -46,7 +46,7 @@ def get_route_car(pickup_lon, pickup_lat, dropoff_lon, dropoff_lat):
 
     return out
 
-# (v.2.0) ВТОРАЯ ВЕРСИЯ ПОСТРОЕНИЯ ВОЗДУШНОГО МАРШРУТА, ПОСТРОЕНИЕ ДОЛЬШЕ Т.К. ЗАДЕЙСТВУЕТ 3 ОТДЕЛЬНЫЕ ИТЕРАЦИИ ДЛЯ ПОТРОЕНИЯ МАРШРУТА
+
 def get_route_fly(pickup_lon, pickup_lat, air_lat_1, air_long_1, air_lat_2, air_long_2, dropoff_lon, dropoff_lat):
     loc = [f'{pickup_lon},{pickup_lat};{air_lat_1},{air_long_1}', f'{air_lat_2},{air_long_2};{dropoff_lon},{dropoff_lat}']
     my_coord = []
