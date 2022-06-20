@@ -1,32 +1,15 @@
-'''# Importing the Nominatim geocoder class
-from geopy.geocoders import Nominatim
+import http.client
 
-# address we need to geocode
-loc = [53.9024716, 27.5618225]
+conn = http.client.HTTPSConnection("aerodatabox.p.rapidapi.com")
 
-# making an instance of Nominatim class
-geolocator = Nominatim(user_agent="my_request")
+headers = {
+    'X-RapidAPI-Key': "9cef4caf6cmsh10e822fccf92ed4p142d32jsndf25b4bb0113",
+    'X-RapidAPI-Host': "aerodatabox.p.rapidapi.com"
+    }
 
-# applying geocode method to get the location
-location = geolocator.reverse(loc)
+conn.request("GET", "/flights/airports/icao/EHAM/2021-10-04T20:00/2021-10-05T08:00?withLeg=true&withCancelled=true&withCodeshared=true&withCargo=true&withPrivate=true&withLocation=false", headers=headers)
 
-# printing address and coordinates
-print(location.address)
-print((location.latitude, location.longitude))'''
+res = conn.getresponse()
+data = res.read()
 
-import requests
-
-apiKey = input("API Key: ")
-apiUrl = "https://aeroapi.flightaware.com/aeroapi/"
-
-airport = 'KSFO'
-payload = {'max_pages': 2}
-auth_header = {'x-apikey':apiKey}
-
-response = requests.get(apiUrl + f"airports/{airport}/flights",
-    params=payload, headers=auth_header)
-
-if response.status_code == 200:
-    print(response.json())
-else:
-    print("Error executing request")
+print(data.decode("utf-8"))
