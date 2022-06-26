@@ -1,10 +1,11 @@
 from datetime import datetime, date
 
 from django.shortcuts import render, redirect
-from main.models import RouteCoordinates, Places, News
+from main.models import RouteCoordinates, Places, News, Countries
 from geopy.geocoders import Nominatim
 import logging
 from django.core.paginator import Paginator
+import requests
 
 # Forms
 from main.forms import SearchPlacesForm, SearchRouteForm
@@ -30,7 +31,6 @@ def showmap(request):
             name: str = place_form.cleaned_data["name"]
             geolocator = Nominatim(user_agent="my_request") # Обращаюсь к библиотечке для геокодирования, а как она работает не е*у (Инкапсуляция) ¯\_(ツ)_/¯
             location = geolocator.geocode(name) # Геокодирую по назвнию точки
-            '''logger.info(f"{request.user} added location - {location.address} ")'''
             try:
                 coordinates = Places.objects.create(author=request.user, name=location.address, places_long=location.latitude,
                                                     places_lat=location.longitude) # Обновляю данные в базе (добовляю координаты)  для нашего места
@@ -42,8 +42,63 @@ def showmap(request):
             name_from: str = route_form.cleaned_data["name_from"]
             name_to: str = route_form.cleaned_data["name_to"]
             geolocator = Nominatim(user_agent="my_request")
-            location1 = geolocator.geocode(name_from)
-            location2 = geolocator.geocode(name_to)
+            location1 = geolocator.geocode(name_from, language="en")
+            location2 = geolocator.geocode(name_to, language="en")
+            logger.info(f"___Solution22222 - {location1, location2} ")
+
+            # Проверка инпута, если было введено название страны, то выстравиваем маршрут в столицу!
+            def country_check(location1, location2):
+                name_from = geolocator.reverse([location1.latitude, location1.longitude], language='en')
+                sepa_from = name_from[-2].split(', ') # Достаю полное название страны из геокодирования
+                '''variant = Countries.objects.get(name=sepa_from[-1]) # Достаю варианты названия страны из БД
+                countrys_keywords = variant.keywords.split(', ') # Преобразую варианты в список'''
+                logger.info(f"___введенные ДАННЫЕ - {location1} == {sepa_from[-1]} ")
+                if str(location1) == sepa_from[-1]:
+                    flag = True
+
+                    url = "https://countriesnow.space/api/v0.1/countries/capital"
+                    payload = {"country": f"{str(location1)}"}
+                    headers = {}
+                    response = requests.request("POST", url, headers=headers, data=payload)
+                    res = response.json()
+                    cap = [res['data']['capital']]
+                    logger.info(f"___CAPITAL1 - {cap[0]} ")
+                    location1 = geolocator.geocode(cap[0], language="en") # Координаты столица государства
+
+                else:
+                    flag = False
+                    location1 = location1
+                logger.info(f"___FLAAAAG - {flag} ")
+
+                name_to = geolocator.reverse([location2.latitude, location2.longitude], language='en')
+                sepa_to = name_to[-2].split(', ') # Достаю полное название страны из геокодирования
+                '''variant = Countries.objects.get(name=sepa_from[-1]) # Достаю варианты названия страны из БД
+                countrys_keywords = variant.keywords.split(', ') # Преобразую варианты в список'''
+                logger.info(f"___введенные ДАННЫЕ - {location2} == {sepa_to[-1]} ")
+                if str(location2) == sepa_to[-1]:
+                    flag = True
+
+                    url = "https://countriesnow.space/api/v0.1/countries/capital"
+                    payload = {"country": f"{str(location2)}"}
+                    headers = {}
+                    response = requests.request("POST", url, headers=headers, data=payload)
+                    res = response.json()
+                    cap = [res['data']['capital']]
+                    logger.info(f"___CAPITAL2 - {cap[0]} ")
+                    location2 = geolocator.geocode(cap[0], language="en") # Координаты столица государства
+
+                else:
+                    flag = False
+                    location2 = location2
+                logger.info(f"___FLAAAAG - {flag} ")
+
+                return location1, location2
+
+            solution = country_check(location1, location2)
+            location1 = solution[0]
+            location2 = solution[1]
+            logger.info(f"___Solution - {location1, location2} ")
+
 
             feet: bool = transport_form.cleaned_data["feet"]
             automable: bool = transport_form.cleaned_data["auto"]
