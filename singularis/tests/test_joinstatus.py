@@ -22,7 +22,7 @@ class TestCreateUser:
         client = Client()
 
         # Тест по созданию юзера
-        user = User.objects.create(username="test", email="test@test.com", password="test")
+        user = User.objects.create(username="errors", email="errors@errors.com", password="errors")
         client.force_login(user)
 
         # Тест на создание места

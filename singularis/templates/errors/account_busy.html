@@ -1,0 +1,15 @@
+{% extends "base_2.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <head>
+        <meta charset="UTF-8">
+        <title>Ууупсс</title>
+    </head>
+    <body>
+    <div class="container" style="text-align: center;">
+        <h1>Пользователь под этой почтой уже зарегестрирован! :/</h1>
+        <a href="{% url "login" %}" class="btn btn-primary btn-lg" role="button">Войти</a><br>
+    </div>
+    </body>
+{% endblock %}

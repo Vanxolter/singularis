@@ -3,12 +3,19 @@
 
 
 {% block content %}
-    <div class="container">
-        <h1>Регистрация</h1>
-        <form method="POST" class="post-form">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <button type="submit" class="save btn btn-primary">Регистрация</button>
-        </form>
+    <div class="container" style="margin-left: auto; margin-right: auto; ">
+        <div  style="text-align: center">
+            <h1>Регистрация</h1>
+        </div>
+        <div style="margin-left: auto; margin-right: auto; width: 35%">
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <br>
+                <button style="min-width: 100%; margin-bottom: 20px" type="submit" name="_signin" class="login btn-lg btn-primary">
+                    Регистрация
+                </button>
+            </form>
+        </div>
     </div>
 {% endblock %}

@@ -147,7 +147,7 @@ def airplane(request, lat1, long1, lat2, long2, *args, **kwargs):
     try:
         m = folium.Map(location=[(route['start_point1'][0]), (route['start_point1'][1])], zoom_start=10, )
     except KeyError:
-        return render(request, 'test/Error.html')
+        return render(request, 'errors/Error.html')
 
     info = [route['steps1'], route['steps3']]
 

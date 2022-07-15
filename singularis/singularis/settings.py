@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-f$_&#)02f3k4e^uxxpfb4kt0!=ph*=g-vc3un&ecgc$lgm6=z6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'users',
     'transports'
 ]
+
+CSRF_TRUSTED_ORIGINS = ["https://vanx.herokuapp.com", "http://127.0.0.1"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,14 +86,14 @@ WSGI_APPLICATION = 'singularis.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-   "default": {
-       'ENGINE': 'django.contrib.gis.db.backends.postgis',
-       "NAME": "secret",
-       "USER": "secret",
-       "PASSWORD": "secret",
-       "HOST": "localhost",
-       "PORT": 5432,
-   }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_NAME", "secret"),
+        "USER": os.getenv("POSTGRES_USER", "secret"),
+        "PASSWORD": os.getenv("POSTGRES_PASS", "secret"),
+        "HOST": os.getenv("POSTGRES_HOST", "localhost"),
+        "PORT": 5432,
+    }
 }
 
 RQ_QUEUES = {
